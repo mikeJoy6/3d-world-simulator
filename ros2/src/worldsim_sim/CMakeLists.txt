@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.8)
+project(worldsim_sim)
+find_package(ament_cmake REQUIRED)
+install(PROGRAMS nodes/sim_robot nodes/keyboard nodes/control_panel DESTINATION lib/${PROJECT_NAME})
+install(DIRECTORY launch rviz DESTINATION share/${PROJECT_NAME})
+ament_package()

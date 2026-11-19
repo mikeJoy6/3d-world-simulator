@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<robot name="worldsim_aloha">
+  <group name="arm0"><chain base_link="arm0_base_link" tip_link="arm0_action_tcp"/></group>
+  <group name="arm0_gripper"><joint name="arm0_left_finger"/><joint name="arm0_right_finger"/></group>
+  <end_effector name="arm0_hand" parent_link="arm0_action_tcp" group="arm0_gripper" parent_group="arm0"/>
+  <group_state name="rest" group="arm0"><joint name="arm0_waist" value="0.0539"/><joint name="arm0_shoulder" value="-0.1631"/><joint name="arm0_elbow" value="0.9769"/><joint name="arm0_forearm_roll" value="-0.0031"/><joint name="arm0_wrist_angle" value="-0.0799"/><joint name="arm0_wrist_rotate" value="-0.0101"/></group_state>
+  <group_state name="open" group="arm0_gripper"><joint name="arm0_left_finger" value="0.0400"/></group_state>
+  <group_state name="closed" group="arm0_gripper"><joint name="arm0_left_finger" value="0.0150"/></group_state>
+  <disable_collisions link1="arm0_base_link" link2="arm0_shoulder_link" reason="Adjacent"/>
+  <disable_collisions link1="arm0_base_link" link2="arm0_upper_arm_link" reason="Adjacent"/>
+  <disable_collisions link1="arm0_base_link" link2="arm0_upper_forearm_link" reason="Adjacent"/>
+  <disable_collisions link1="arm0_gripper_link" link2="arm0_left_finger_link" reason="Adjacent"/>
+  <disable_collisions link1="arm0_gripper_link" link2="arm0_lower_forearm_link" reason="Adjacent"/>
+  <disable_collisions link1="arm0_gripper_link" link2="arm0_right_finger_link" reason="Adjacent"/>
+  <disable_collisions link1="arm0_gripper_link" link2="arm0_upper_forearm_link" reason="Adjacent"/>
+  <disable_collisions link1="arm0_gripper_link" link2="arm0_wrist_link" reason="Adjacent"/>
+  <disable_collisions link1="arm0_left_finger_link" link2="arm0_right_finger_link" reason="Adjacent"/>
+  <disable_collisions link1="arm0_lower_forearm_link" link2="arm0_shoulder_link" reason="Adjacent"/>
+  <disable_collisions link1="arm0_lower_forearm_link" link2="arm0_upper_arm_link" reason="Adjacent"/>
+  <disable_collisions link1="arm0_lower_forearm_link" link2="arm0_upper_forearm_link" reason="Adjacent"/>
+  <disable_collisions link1="arm0_lower_forearm_link" link2="arm0_wrist_link" reason="Adjacent"/>
+  <disable_collisions link1="arm0_shoulder_link" link2="arm0_upper_arm_link" reason="Adjacent"/>
+  <disable_collisions link1="arm0_shoulder_link" link2="arm0_upper_forearm_link" reason="Adjacent"/>
+  <disable_collisions link1="arm0_upper_arm_link" link2="arm0_upper_forearm_link" reason="Adjacent"/>
+  <disable_collisions link1="arm0_upper_arm_link" link2="arm0_wrist_link" reason="Adjacent"/>
+  <disable_collisions link1="arm0_upper_forearm_link" link2="arm0_wrist_link" reason="Adjacent"/>
+  <disable_collisions link1="arm0_base_link" link2="arm0_upper_arm_link" reason="Never"/>
+  <group name="arm1"><chain base_link="arm1_base_link" tip_link="arm1_action_tcp"/></group>
+  <group name="arm1_gripper"><joint name="arm1_left_finger"/><joint name="arm1_right_finger"/></group>
+  <end_effector name="arm1_hand" parent_link="arm1_action_tcp" group="arm1_gripper" parent_group="arm1"/>
+  <group_state name="rest" group="arm1"><joint name="arm1_waist" value="-0.0453"/><joint name="arm1_shoulder" value="0.0654"/><joint name="arm1_elbow" value="0.9511"/><joint name="arm1_forearm_roll" value="-0.0393"/><joint name="arm1_wrist_angle" value="-0.5427"/><joint name="arm1_wrist_rotate" value="0.0276"/></group_state>
+  <group_state name="open" group="arm1_gripper"><joint name="arm1_left_finger" value="0.0400"/></group_state>
+  <group_state name="closed" group="arm1_gripper"><joint name="arm1_left_finger" value="0.0150"/></group_state>
+  <disable_collisions link1="arm1_base_link" link2="arm1_shoulder_link" reason="Adjacent"/>
+  <disable_collisions link1="arm1_base_link" link2="arm1_upper_arm_link" reason="Adjacent"/>
+  <disable_collisions link1="arm1_base_link" link2="arm1_upper_forearm_link" reason="Adjacent"/>
+  <disable_collisions link1="arm1_gripper_link" link2="arm1_left_finger_link" reason="Adjacent"/>
+  <disable_collisions link1="arm1_gripper_link" link2="arm1_lower_forearm_link" reason="Adjacent"/>
+  <disable_collisions link1="arm1_gripper_link" link2="arm1_right_finger_link" reason="Adjacent"/>
+  <disable_collisions link1="arm1_gripper_link" link2="arm1_upper_forearm_link" reason="Adjacent"/>
+  <disable_collisions link1="arm1_gripper_link" link2="arm1_wrist_link" reason="Adjacent"/>
+  <disable_collisions link1="arm1_left_finger_link" link2="arm1_right_finger_link" reason="Adjacent"/>
+  <disable_collisions link1="arm1_lower_forearm_link" link2="arm1_shoulder_link" reason="Adjacent"/>
+  <disable_collisions link1="arm1_lower_forearm_link" link2="arm1_upper_arm_link" reason="Adjacent"/>
+  <disable_collisions link1="arm1_lower_forearm_link" link2="arm1_upper_forearm_link" reason="Adjacent"/>
+  <disable_collisions link1="arm1_lower_forearm_link" link2="arm1_wrist_link" reason="Adjacent"/>
+  <disable_collisions link1="arm1_shoulder_link" link2="arm1_upper_arm_link" reason="Adjacent"/>
+  <disable_collisions link1="arm1_shoulder_link" link2="arm1_upper_forearm_link" reason="Adjacent"/>
+  <disable_collisions link1="arm1_upper_arm_link" link2="arm1_upper_forearm_link" reason="Adjacent"/>
+  <disable_collisions link1="arm1_upper_arm_link" link2="arm1_wrist_link" reason="Adjacent"/>
+  <disable_collisions link1="arm1_upper_forearm_link" link2="arm1_wrist_link" reason="Adjacent"/>
+  <disable_collisions link1="arm1_base_link" link2="arm1_upper_arm_link" reason="Never"/>
+  <disable_collisions link1="arm0_base_link" link2="arm1_base_link" reason="Never"/>
+</robot>

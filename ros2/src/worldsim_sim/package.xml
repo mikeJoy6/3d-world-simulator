@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>worldsim_sim</name><version>0.2.0</version>
+  <description>Simulation backend: the extracted ViperX pair as a kinematic robot (FollowJointTrajectory controllers for the MoveIt planning groups), the launch file, RViz layout, keyboard panel.</description>
+  <maintainer email="maintainer@localhost.localdomain">Local workspace maintainer</maintainer>
+  <license>See upstream terms for bundled model code and weights</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <exec_depend>worldsim_core</exec_depend>
+  <exec_depend>worldsim_model</exec_depend>
+  <exec_depend>worldsim_description</exec_depend>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>control_msgs</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+  <exec_depend>python3-pyqt5</exec_depend>
+  <exec_depend>rviz2</exec_depend>
+  <exec_depend>moveit_ros_visualization</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>ament_index_python</exec_depend>
+  <export><build_type>ament_cmake</build_type></export>
+</package>

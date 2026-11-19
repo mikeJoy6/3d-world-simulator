@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.8)
+project(worldsim_g2)
+find_package(ament_cmake REQUIRED)
+install(PROGRAMS nodes/observe DESTINATION lib/${PROJECT_NAME})
+install(DIRECTORY launch config rviz DESTINATION share/${PROJECT_NAME})
+ament_package()

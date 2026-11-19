@@ -1,0 +1,16 @@
+#!/bin/bash
+# Run Python in this workspace's inference environment (PyTorch + CUDA + the compiled Gaussian renderer).
+#   tools/wspython script.py ...        WORLDSIM_PYTHON overrides the interpreter.
+set -eu
+root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+export WORLDSIM_ASSETS="${WORLDSIM_ASSETS:-$root/assets/checkpoints}"
+export TORCH_EXTENSIONS_DIR="${TORCH_EXTENSIONS_DIR:-$root/.runtime/torch_extensions}"
+export PATH="$root/.venv/bin:$PATH"
+if [ -x "$root/.runtime/cuda/bin/nvcc" ]; then
+  export CUDA_HOME="$root/.runtime/cuda"
+  export PATH="$CUDA_HOME/bin:$PATH"
+  export CPATH="$CUDA_HOME/include:$CUDA_HOME/include/cccl${CPATH:+:$CPATH}"
+  export TORCH_CUDA_ARCH_LIST="${TORCH_CUDA_ARCH_LIST:-8.9}"
+fi
+export MAX_JOBS="${MAX_JOBS:-2}"
+exec "${WORLDSIM_PYTHON:-$root/.venv/bin/python}" "$@"

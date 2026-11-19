@@ -1,0 +1,70 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+Visualization Manager:
+  Class: ""
+  Global Options:
+    Background Color: 32; 34; 38
+    Fixed Frame: base_link
+    Frame Rate: 30
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Grid
+      Enabled: true
+      Value: true
+    - Class: rviz_default_plugins/RobotModel
+      Name: G2
+      Enabled: true
+      Description Source: Topic
+      Description Topic:
+        Value: /robot_description
+        Durability Policy: Transient Local
+        Reliability Policy: Reliable
+        Depth: 1
+        History Policy: Keep Last
+      Visual Enabled: true
+      Collision Enabled: false
+      Alpha: 1
+      Value: true
+    - Class: rviz_default_plugins/PointCloud2
+      Name: Scene particles
+      Enabled: true
+      Topic:
+        Value: /worldsim/points
+        Reliability Policy: Reliable
+        Durability Policy: Volatile
+        Depth: 1
+        History Policy: Keep Last
+      Color Transformer: RGB8
+      Position Transformer: XYZ
+      Style: Flat Squares
+      Size (m): 0.004
+      Value: true
+    - Class: rviz_default_plugins/Image
+      Name: Model camera
+      Enabled: true
+      Topic:
+        Value: /worldsim/image
+        Reliability Policy: Reliable
+        Durability Policy: Volatile
+        Depth: 1
+        History Policy: Keep Last
+      Value: true
+    - Class: rviz_default_plugins/TF
+      Name: TF
+      Enabled: false
+      Value: false
+  Tools:
+    - Class: rviz_default_plugins/Interact
+    - Class: rviz_default_plugins/MoveCamera
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Target Frame: <Fixed Frame>
+      Distance: 2.5
+      Pitch: 0.5
+      Yaw: 3.6
+      Focal Point: {X: 0.5, Y: 0, Z: 0.8}
+Window Geometry:
+  Width: 1400
+  Height: 840

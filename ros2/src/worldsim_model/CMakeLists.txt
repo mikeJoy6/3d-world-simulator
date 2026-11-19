@@ -1,0 +1,20 @@
+cmake_minimum_required(VERSION 3.8)
+project(worldsim_model)
+find_package(ament_cmake REQUIRED)
+get_filename_component(WORKSPACE "${CMAKE_CURRENT_SOURCE_DIR}/../.." ABSOLUTE)
+configure_file(nodes/world_model.in "${CMAKE_CURRENT_BINARY_DIR}/world_model" @ONLY
+  FILE_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
+install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/world_model" nodes/ee_teleop DESTINATION lib/${PROJECT_NAME})
+install(FILES nodes/world_model_node.py DESTINATION share/${PROJECT_NAME})
+# The upstream model code: the repository root (this repository is a fork of jwang771/3d-world-simulator, the ROS
+# packages live in ros2/), or a copy in src/worldsim_model/upstream.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/upstream/models/world_model.py")
+  set(UPSTREAM "${CMAKE_CURRENT_SOURCE_DIR}/upstream")
+else()
+  get_filename_component(UPSTREAM "${CMAKE_CURRENT_SOURCE_DIR}/../../.." ABSOLUTE)
+endif()
+if(NOT EXISTS "${UPSTREAM}/models/world_model.py")
+  message(FATAL_ERROR "upstream model code not found (looked in ${UPSTREAM})")
+endif()
+install(DIRECTORY "${UPSTREAM}/models" "${UPSTREAM}/datasets" "${UPSTREAM}/demo" DESTINATION share/${PROJECT_NAME}/upstream PATTERN "__pycache__" EXCLUDE)
+ament_package()

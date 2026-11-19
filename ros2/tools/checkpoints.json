@@ -1,0 +1,278 @@
+[
+  {
+    "path": "checkpoints/arms/rig.pt",
+    "size": 38978153,
+    "sha256": "85c8fdf804e8af0d786cb52b3c01ca888d919344d008055eca7226004804cd3d",
+    "git": "65e88db4d5de4b74237e61e60ae3dceb70cdccd1"
+  },
+  {
+    "path": "checkpoints/assembly/arms.pt",
+    "size": 21831305,
+    "sha256": "9fb7746ea7db49ee594653f9b7fc80eb17706ee7d2530da196031cbc846b2eb8",
+    "git": "76606be479a7209bb16e400cdac3734e7c2c20b3"
+  },
+  {
+    "path": "checkpoints/assembly/dynamics.pth",
+    "size": 49934100,
+    "sha256": "0093ffba5427890039b04630f0b31c3187b0ec74cef7ddec21f585daf9e4bfce",
+    "git": "7dbf4592d52ef12ee1e1c50b022b83754068ba55"
+  },
+  {
+    "path": "checkpoints/assembly/seed_episode_10.h5",
+    "size": 89859008,
+    "sha256": "243667fe51af8f1628d3eb03b00fe550cf29c55eb065dcdcc4d089dfe14bb3dc",
+    "git": "2d0ffa98d4f00b3f3913e8790ea7565da638abdf"
+  },
+  {
+    "path": "checkpoints/assembly/task.json",
+    "size": 2883,
+    "sha256": null,
+    "git": "5dda454a9b830c1222637045ec533d747d28c059"
+  },
+  {
+    "path": "checkpoints/assembly/thumbs/latents.jpg",
+    "size": 3535,
+    "sha256": "d6be307a37e73fbd9917e8aba5c405926fcd3787f65aacb36f7d3aa31c5e1aae",
+    "git": "24c1ea667752f48f67e1a625e90ab4a04a8e4eae"
+  },
+  {
+    "path": "checkpoints/assembly/thumbs/multi.jpg",
+    "size": 11438,
+    "sha256": "3904b1ace106791c2741bd0e4ce46fcbb7d9beaf2c1ede9768f9774bc4030479",
+    "git": "d910123df7bb47d3363f5f2e48ae00d1553d0f65"
+  },
+  {
+    "path": "checkpoints/assembly/thumbs/particles.jpg",
+    "size": 5827,
+    "sha256": "8cbff27c88a99774516f40378691ce85b6e84f5d50477a4247d1c4784dadcd15",
+    "git": "bd5d1cb67b715cc352679166c0feb256a15d945a"
+  },
+  {
+    "path": "checkpoints/assembly/thumbs/raw.jpg",
+    "size": 3207,
+    "sha256": "107fbc40e63853479ed32d3dde21f2b4866fac436b159d132e2f5c88ad1e40e7",
+    "git": "a6766e1cd772ee6d1d439347300ed5de441c436e"
+  },
+  {
+    "path": "checkpoints/assembly/thumbs/splats.jpg",
+    "size": 5527,
+    "sha256": "6779462fbbe88afdbdbb12383e28f507bc253d789b84e0b49c6c97127cd298c0",
+    "git": "09ad178f2dbfd5b956159d0bb65e11ffa874ca20"
+  },
+  {
+    "path": "checkpoints/assembly/thumbs/voxels.jpg",
+    "size": 3813,
+    "sha256": "45bdb7e2e2d1932b6376408c5657196ddf3585cf48486925ce23862bebcf77fd",
+    "git": "6cc07239943bd6620a0e7e2b1ca3202cf17fe926"
+  },
+  {
+    "path": "checkpoints/assembly/vae.pth",
+    "size": 29786015,
+    "sha256": "e1ccd8a0e00d2035fc52221fa3f3b5a5b70cbfdf2f55e7128ff868c4fcc3358e",
+    "git": "fbb10de3c69374e2ac391fa6e0a7a819e084d98f"
+  },
+  {
+    "path": "checkpoints/background/scan_room.pt",
+    "size": 29945199,
+    "sha256": "0b1fc8b3b013a3a891d773d965dd109396ea8ada77ff39bd81355137c0f737e5",
+    "git": "51652b66db1bc35823f034c271d1fe02e7968a65"
+  },
+  {
+    "path": "checkpoints/box/arms.pt",
+    "size": 21831241,
+    "sha256": "ac7a483c8a69695c6c01fcc7d160980650d0f26b69ae8d31ed7691e00ed48e7e",
+    "git": "f32fb0cc1fe38302b41756033bbdcdb586fe77d0"
+  },
+  {
+    "path": "checkpoints/box/dynamics.pth",
+    "size": 49934100,
+    "sha256": "cfb28a67a66706226cfc2213d84cdf1fc6a82a09829c9a7ac587562ccea241d9",
+    "git": "2acaf025a627dd8ee18bbcf9fef2aa9cbad9f4f7"
+  },
+  {
+    "path": "checkpoints/box/seed_episode_24.h5",
+    "size": 125955400,
+    "sha256": "78959835aa77621eb0f38d1a6db5aa6a1655705bee7c999c12d8ddc9ea7e8e5e",
+    "git": "3dc9368e3c6786e251aa0ee95ca26e2db6d0c173"
+  },
+  {
+    "path": "checkpoints/box/task.json",
+    "size": 2971,
+    "sha256": null,
+    "git": "6de53f4f8be41d84d6cb1ffcd238cd58ef59c4d2"
+  },
+  {
+    "path": "checkpoints/box/thumbs/latents.jpg",
+    "size": 3569,
+    "sha256": "9ce9bb950a05e5e2bb848f4049def4a1f9f38c90664c9e7c73e3d79e4b52b25a",
+    "git": "4ed70b9719ec545260c50af54be13a32ad0b247a"
+  },
+  {
+    "path": "checkpoints/box/thumbs/multi.jpg",
+    "size": 11629,
+    "sha256": "75a7b1b1038dcf617a79a084edeec4805bd0829e65b3476bd560483a42dfba43",
+    "git": "0824ce306e034e076118147a3cf615e45be96b4d"
+  },
+  {
+    "path": "checkpoints/box/thumbs/particles.jpg",
+    "size": 5465,
+    "sha256": "dc453102b25a89a65912231578dfcd08cac3e6add450d45095dea3106530ae85",
+    "git": "90561eebd79712947651b7b62b8d079001ef7390"
+  },
+  {
+    "path": "checkpoints/box/thumbs/raw.jpg",
+    "size": 3405,
+    "sha256": "75164a2fe4e9e9d16b14c5c7202676f42f7bbfe38d1ff375b3c983ae36d2a42d",
+    "git": "8f63b9e946ec3bf97e55948e065a2e4e110ee68e"
+  },
+  {
+    "path": "checkpoints/box/thumbs/splats.jpg",
+    "size": 5703,
+    "sha256": "dd62d23a0f49c1e669bfcd6acaab2f3676e403409c51622fe03ec3d659e48594",
+    "git": "259ed3a6ef213de1d3253e8ce67fa6a1bc9f8d45"
+  },
+  {
+    "path": "checkpoints/box/thumbs/voxels.jpg",
+    "size": 4022,
+    "sha256": "a4c8e68a1ffe87bafceedc28a7f85c750037b789591ca4d831eb930f9ae4264a",
+    "git": "caf6674761453f2e49dc0cb4eb71ad6bde00d2a5"
+  },
+  {
+    "path": "checkpoints/box/vae.pth",
+    "size": 29181635,
+    "sha256": "3334066b4e4ef3d1943eb0b858ecd93cd50b06ed0c492a7c06ad5106701c8e25",
+    "git": "c30954a65c64b24beb479393e17a12a17f30cee9"
+  },
+  {
+    "path": "checkpoints/cloth/arms.pt",
+    "size": 21831241,
+    "sha256": "94035d4f0fc00df4e061bbfdc8aa8da1263e3fba579412e29bd46ffdff9c4fdc",
+    "git": "e20eedcbff43cbd656bb33ff302aac0c31430c1f"
+  },
+  {
+    "path": "checkpoints/cloth/dynamics.pth",
+    "size": 49934100,
+    "sha256": "e8b939871b4d0d93586f8c5db3d59af1f3803e241eed3619e59974ef1d00976a",
+    "git": "5cacb22ac15fbef52756bffef07e81b9f2dd047e"
+  },
+  {
+    "path": "checkpoints/cloth/seed_episode_38.h5",
+    "size": 88419115,
+    "sha256": "e6d95a4f656842f805087f2e4b4c211d3958d1773d6c0472f273b2c457a225d8",
+    "git": "5a9cd7fb81c6b99816cb1ec69c707660442ca545"
+  },
+  {
+    "path": "checkpoints/cloth/task.json",
+    "size": 3233,
+    "sha256": null,
+    "git": "c247686eda43c84478369c7781e243b5ef6c29c0"
+  },
+  {
+    "path": "checkpoints/cloth/thumbs/latents.jpg",
+    "size": 3928,
+    "sha256": "3bbe98bbc9c2df627c7ff541740278fcde6f7df73c04726608286927bf3e9079",
+    "git": "c0483c23a7582ef3df8926d4b1ee0cd41eb9915d"
+  },
+  {
+    "path": "checkpoints/cloth/thumbs/multi.jpg",
+    "size": 9648,
+    "sha256": "8291abc5918ef05c0d7aeefe83cfde0eb431fec2130f94bd93d0dc2faa90ac40",
+    "git": "e57d7069f9b0749b28e2b9b2d446e425af1b205c"
+  },
+  {
+    "path": "checkpoints/cloth/thumbs/particles.jpg",
+    "size": 6503,
+    "sha256": "9086738ce595f90f38806a5195138f09d9c89055682e564363c2a0aa91bdbe75",
+    "git": "682e9b585ad88976a79d8b55453f58e295ba5392"
+  },
+  {
+    "path": "checkpoints/cloth/thumbs/raw.jpg",
+    "size": 2567,
+    "sha256": "ae1a5272e13166e9217e2701c6055f327392a098ae40c8179e0a2152434df710",
+    "git": "70858b97293779b6850d9d52cd1ce738d7cc72af"
+  },
+  {
+    "path": "checkpoints/cloth/thumbs/splats.jpg",
+    "size": 5392,
+    "sha256": "66fa5111e0f7c7ec7fb1e4867b96d0c55131bd1af3a2e8b5d96e1b6fdea66aa9",
+    "git": "ffa62a90a57343e2a40b94a733cf0a42f05836dc"
+  },
+  {
+    "path": "checkpoints/cloth/thumbs/voxels.jpg",
+    "size": 3123,
+    "sha256": "e4c779c10f7dfd62c4200fc512f584e14a0ebc7f89b523d25802fd05d4bd8068",
+    "git": "1d095832bc3624aaa996dbeb1b5677dcba8f3e43"
+  },
+  {
+    "path": "checkpoints/cloth/vae.pth",
+    "size": 31358879,
+    "sha256": "64c7d6ba72da87813d2fa699f9ca111ee34da82d7763bb8e9c8be835aec1c2c4",
+    "git": "250a9cbaaab76389b88e91488bbf4a72170ae3d5"
+  },
+  {
+    "path": "checkpoints/pusht/arms.pt",
+    "size": 21831241,
+    "sha256": "74d259fcaaf7eef83a4840d1b2e46e7785bff5fe8d255a7cd8d001bfb9534f31",
+    "git": "ce0a6f01323896d9f0a358c721c9fab621582373"
+  },
+  {
+    "path": "checkpoints/pusht/dynamics.pth",
+    "size": 49622996,
+    "sha256": "e37e4e7b966624c0c98133a3634c16e08a77792c7f2eac3eb80c9c4e95d09402",
+    "git": "68a6b2fee1d463740840c75bb958c79fae3f09bb"
+  },
+  {
+    "path": "checkpoints/pusht/seed_episode_0.h5",
+    "size": 86247254,
+    "sha256": "a27a58a3780604df3e8d7a4671f76b60a9928c91ca198fe60c4a09b249ff244f",
+    "git": "050d12e9dd14ce3346d5da94a5d90b127f975cb8"
+  },
+  {
+    "path": "checkpoints/pusht/task.json",
+    "size": 2747,
+    "sha256": null,
+    "git": "3608ea7f6b21fe2aacaecb115357e2a57939381c"
+  },
+  {
+    "path": "checkpoints/pusht/thumbs/latents.jpg",
+    "size": 3506,
+    "sha256": "59b364ee0adf487fda8d2be634db1ffa5dc22178999d6b9284559cb5466e082a",
+    "git": "f4aa6ac5cae81bfba2e2143ba113fbb764b66349"
+  },
+  {
+    "path": "checkpoints/pusht/thumbs/multi.jpg",
+    "size": 11478,
+    "sha256": "d3c661f466ffe0d73ad9bf27796717e88f4f2f13d0db72370842f7fc811086d9",
+    "git": "f53c7af9fe27efcfb5da89437613a645dffee1f7"
+  },
+  {
+    "path": "checkpoints/pusht/thumbs/particles.jpg",
+    "size": 6486,
+    "sha256": "005160c9968e2b98fcd407d38ccd963284f0c91d455b92da3aa5b2987185cb0d",
+    "git": "f667c045ca23a35e09d791f08969a793adab6236"
+  },
+  {
+    "path": "checkpoints/pusht/thumbs/raw.jpg",
+    "size": 3599,
+    "sha256": "de513894fab1259bf9591482b7dc85cee4b2b2fb5d0735be82fb92b7ba7b3643",
+    "git": "abb94b6a252123b825eb09c8a35e1b5ee3fc2be3"
+  },
+  {
+    "path": "checkpoints/pusht/thumbs/splats.jpg",
+    "size": 5878,
+    "sha256": "85b039edb3201d0c03f489aed61d5796aa547b64c7a8e8b6cbcc32c9ed29fdd7",
+    "git": "1e3db71055ae1b7b762bfc059fe102763760c791"
+  },
+  {
+    "path": "checkpoints/pusht/thumbs/voxels.jpg",
+    "size": 3793,
+    "sha256": "cb79319ecdbd039989cba0fb428087c627e440d3e19b03c3385ade9898bf0a28",
+    "git": "b5a1e5533208ddbf0e57e5a0c5a2fa8ad6279e7c"
+  },
+  {
+    "path": "checkpoints/pusht/vae.pth",
+    "size": 27608771,
+    "sha256": "ed5624cd1c71e384d974197ea2fd3b377d8109ced93ff50a10918b73556524d8",
+    "git": "a141821bb2d38cc62ea26f0133fd778e73f47572"
+  }
+]

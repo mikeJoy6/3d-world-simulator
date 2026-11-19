@@ -1,0 +1,115 @@
+# 世界模型仿真/真机(说明 README.md)
+# 仿真用自己的环境:ROS 域 78、只在本机,不连真机。不要 source env_g2.sh
+# 真机用 G2 的环境(env_g2.sh,域 4),run_real.sh 里已经 source 了
+
+
+
+
+
+# 本目录 = fork 仓库的 ros2/ 子目录;上游模型代码在仓库顶层
+# 首次:先装环境和权重(见 README「安装」),或把旧工作区的 .venv .runtime assets 软链接过来
+
+# ── 编译(改了 src/ 下的 launch / 配置 / 包结构才要;改 Python 节点不用,symlink 安装)──
+
+cd ~/3d-world-simulator/ros2
+source /opt/ros/humble/setup.bash
+colcon build --base-paths src --symlink-install
+
+
+
+# ── 仿真(ViperX 双臂 URDF + MoveIt 规划组 + 世界模型)────────────
+# 开 RViz、键盘控制面板;面板窗口获得焦点后按住字母键动末端,R 复位,H 开合夹爪(叠布)
+
+cd ~/3d-world-simulator/ros2
+./run_sim.sh                                     # 推 T(默认)
+./run_sim.sh task:=cloth                         # 叠布   task:=pusht|cloth|box|assembly
+./run_sim.sh mode:=replay                        # 循环回放官方动作,仿真臂跟着显示
+./run_sim.sh model_arms:=true                    # 另显示模型自己认为的手臂(RViz 勾 "Model's belief of the arms")
+./run_sim.sh fast:=true                          # 上游加速推理(每个任务首次编译约 1 分钟)
+./run_sim.sh clamp:=false                        # 末端目标不限制在录制工作区内(超出训练范围,预测会变差)
+./run_sim.sh rate:=10.0 max_points:=0            # 模型每秒步数;发布全部场景粒子
+./run_sim.sh rviz:=false panel:=false image:=false   # 只发话题,不开窗口、不渲染相机图
+
+# RViz 里用 MoveIt 动末端:MotionPlanning → Planning Group 选 arm0 / arm1 拖末端标记 → Plan & Execute
+#                     夹爪:Planning Group 选 arm0_gripper,Goal State 选 open / closed → Plan & Execute
+#                     速度默认 10%,别调太快(模型训练时末端约 4 cm/s)
+
+# 终端键盘(不用面板时;X 退出)
+cd ~/3d-world-simulator/ros2
+./keyboard.sh
+
+
+
+# ── 仿真里用命令行控制(另开终端,先设同一个环境)─────────────
+
+source /opt/ros/humble/setup.bash
+source ~/3d-world-simulator/ros2/install/local_setup.bash
+export ROS_LOCALHOST_ONLY=1 ROS_DOMAIN_ID=78
+
+ros2 topic pub --once /worldsim/reset std_msgs/msg/Empty "{}"                        # 复位到种子帧
+ros2 topic pub --once /worldsim/select_task std_msgs/msg/String "{data: cloth}"      # 切任务
+ros2 topic pub --rate 10 /worldsim/key std_msgs/msg/String "{data: j}"               # 按住 j(Ctrl+C 松开)
+ros2 topic pub --once /worldsim/key std_msgs/msg/String "{data: h}"                  # 开合夹爪(叠布臂 0)
+
+# 末端绝对目标(按键盘步长逐步逼近,经 MoveIt 规划);frame 可以是任意 TF 系
+ros2 topic pub --once /worldsim/arm0/target_pose geometry_msgs/msg/PoseStamped \
+  "{header: {frame_id: arm0_action_frame}, pose: {position: {x: 0.32, y: 0.0, z: 0.07}, orientation: {y: 0.1305, w: 0.9914}}}"
+
+# 14 维绝对目标:每臂 x y z roll pitch yaw 夹爪,臂 0 在前
+ros2 topic pub --once /worldsim/action std_msgs/msg/Float32MultiArray \
+  "{data: [0.30, 0.0, 0.07, 0.0, 0.2618, 0.0, 0.15,  0.25, 0.0, 0.07, 0.0, 0.2618, 0.0, 0.15]}"
+
+ros2 topic echo /worldsim/state                    # 模型状态(加载中 / 等机器人到种子位姿 / 跟随中)
+ros2 topic echo /worldsim/teleop_state             # 两臂 MoveIt 末端控制状态
+ros2 topic echo /worldsim/applied_action           # 模型实际收到的 14 维动作
+ros2 topic hz /worldsim/points                     # 场景粒子发布频率
+
+
+
+
+
+# ── 真机(G2 驱动世界模型;说明 README.md「真机」、配置 src/worldsim_g2/config/g2.yaml)──
+# 模型是 ViperX 上训练的,G2 上的预测没验证过。默认 enable_motion=false:键盘只规划不动手臂
+
+# 真机 moveit(先起)
+source ~/agi@g2_robot/env_g2.sh
+ros2 launch genie_robot_agibot_g2_hardware hardware.launch.py
+
+# 世界模型跟随 G2 末端(相对映射:启动 / R / 切任务时把当前末端位姿绑到种子帧)
+cd ~/3d-world-simulator/ros2
+./run_real.sh                                      # 推 T,键盘只规划
+./run_real.sh task:=cloth
+./run_real.sh enable_motion:=true                  # 确认规划没问题后,键盘经 G2 规划组真动手臂(10% 速度)
+./run_real.sh teleop:=false                        # 只跟随,不做末端控制(手臂由别的程序 / 遥操作动)
+./run_real.sh observe:=true                        # 同时转发 G2 头部相机、关节、末端位姿(需 gdk_msgs)
+./run_real.sh world_xyz:="0.75 0.0 0.80"           # 场景在 base_link 下显示的位置
+
+# 只转发 G2 观测(不跑模型)
+source ~/agi@g2_robot/env_g2.sh
+source ~/3d-world-simulator/ros2/install/local_setup.bash
+ros2 launch worldsim_g2 observe.launch.py
+ros2 bag record /worldsim/g2/color/compressed /worldsim/g2/depth /worldsim/g2/joint_states /worldsim/g2/left_pose /worldsim/g2/right_pose /gdk/tf
+
+
+
+
+
+# ── 测试 / 工具 ─────────────────────────────────────
+
+# 核心算法离线测试(不用 ROS 节点、不用 GPU)
+cd ~/3d-world-simulator/ros2
+source /opt/ros/humble/setup.bash && source install/local_setup.bash
+python3 -m pytest src/worldsim_core/test -q
+
+# 重新提取机器人(URDF、网格、动作标定;要 GPU,约 2 分钟)→ 然后重新编译
+cd ~/3d-world-simulator/ros2
+.venv/bin/python tools/extract_robot.py                 # 全部重做
+.venv/bin/python tools/extract_robot.py --skip-meshes   # 只重做标定、URDF、SRDF
+
+# 在本工作区 CUDA 环境里跑 Python(用 worldsim_core.engine 写脚本时)
+~/3d-world-simulator/ros2/tools/wspython 你的脚本.py
+
+# 修复 Python 环境 / 校验权重
+cd ~/3d-world-simulator/ros2
+tools/setup_runtime.sh
+python3 tools/fetch_weights.py

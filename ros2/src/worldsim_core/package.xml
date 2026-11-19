@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>worldsim_core</name><version>0.2.0</version>
+  <description>Core of the local world simulator (no ROS): world-model engine, extracted ViperX robot model, action mapping and teleoperation, shared by simulation and real robots.</description>
+  <maintainer email="maintainer@localhost.localdomain">Local workspace maintainer</maintainer>
+  <license>See upstream terms for bundled model code and weights</license>
+  <exec_depend>python3-numpy</exec_depend>
+  <exec_depend>python3-yaml</exec_depend>
+  <exec_depend>ament_index_python</exec_depend>
+  <test_depend>python3-pytest</test_depend>
+  <export><build_type>ament_python</build_type></export>
+</package>

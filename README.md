@@ -1,3 +1,6 @@
+> **This fork adds a ROS 2 / MoveIt 2 integration** (URDF robot extracted from the release, scene-only particles,
+> end-effector control through MoveIt planning groups, simulation and real-robot backends): see [`ros2/`](ros2/README.md).
+
 # Hybrid Particle-Voxel Dynamics for Multimodal 3D World Simulation
 
 [Jimmy Wang](https://jwang771.github.io)<sup>1,2</sup>, [Yifan Chou](https://yifan-chou.github.io)<sup>3</sup>, [Kaifeng Zhang](https://kywind.github.io)<sup>1</sup>, [Yixuan Wang](https://www.yixuanwang.me/)<sup>4</sup>, [Binghao Huang](https://binghao-huang.github.io)<sup>1</sup>, [Tao Yu](https://www.linkedin.com/in/taoyumit)<sup>5</sup>, [Saleh Nabi](https://www.linkedin.com/in/saleh-nabi-877ba573)<sup>5</sup>, [Yunzhu Li](https://yunzhuli.github.io)<sup>1</sup>

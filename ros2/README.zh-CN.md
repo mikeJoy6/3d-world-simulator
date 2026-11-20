@@ -76,7 +76,7 @@ MoveIt 的 KDL 和 LMA 在这里会漂成 180° 翻腕（两个关节各反向�
 sudo apt install ros-humble-moveit ros-humble-ros2-controllers python3-pyqt5
 
 # 本 fork 的 ros2-integration 分支（顶层是上游代码，测试于上游提交 fc80d4b）
-git clone -b ros2-integration https://github.com/<TODO-用户名>/3d-world-simulator.git
+git clone -b ros2-integration https://github.com/mikeJoy6/3d-world-simulator.git
 cd 3d-world-simulator/ros2
 
 WORLDSIM_TORCH_PYTHON=/装了torch的/python tools/setup_runtime.sh   # 在现有 Python 3.10 + PyTorch 上建 .venv

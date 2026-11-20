@@ -107,7 +107,7 @@ Tested on Ubuntu 22.04, ROS 2 Humble, MoveIt 2.5, Python 3.10, PyTorch with CUDA
 sudo apt install ros-humble-moveit ros-humble-ros2-controllers python3-pyqt5
 
 # This fork (upstream code at the top level, tested at upstream commit fc80d4b), branch ros2-integration
-git clone -b ros2-integration https://github.com/<TODO-your-username>/3d-world-simulator.git
+git clone -b ros2-integration https://github.com/mikeJoy6/3d-world-simulator.git
 cd 3d-world-simulator/ros2
 
 # Python inference environment: .venv on top of an existing Python 3.10 + PyTorch (CUDA 13.0) install

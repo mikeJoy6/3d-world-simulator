@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>worldsim_description</name><version>0.2.0</version>
+  <description>The two ViperX 300 S arms the world model was trained with, extracted from the release (tools/extract_robot.py): URDF, meshes, action-frame calibration, and the MoveIt configuration with planning groups arm0 and arm1.</description>
+  <maintainer email="maintainer@localhost.localdomain">Local workspace maintainer</maintainer>
+  <license>See upstream terms for bundled model code and weights</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <exec_depend>worldsim_core</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>moveit_ros_move_group</exec_depend>
+  <exec_depend>moveit_kinematics</exec_depend>
+  <exec_depend>moveit_planners_ompl</exec_depend>
+  <exec_depend>moveit_simple_controller_manager</exec_depend>
+  <exec_depend>moveit_ros_visualization</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <export><build_type>ament_cmake</build_type></export>
+</package>

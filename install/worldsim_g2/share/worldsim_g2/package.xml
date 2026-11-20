@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>worldsim_g2</name><version>0.2.0</version>
+  <description>Real-robot backend for the AgiBot G2: the world model follows the G2 end effectors (relative mapping), optional end-effector control through the G2 MoveIt planning groups, and read-only observation republishing.</description>
+  <maintainer email="maintainer@localhost.localdomain">Local workspace maintainer</maintainer>
+  <license>See upstream terms for bundled model code and weights</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <exec_depend>worldsim_model</exec_depend>
+  <exec_depend>worldsim_sim</exec_depend>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+  <exec_depend>rviz2</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <!-- gdk_msgs comes from the G2 GDK environment (~/agi@g2_robot/env_g2.sh); only the observe node needs it -->
+  <export><build_type>ament_cmake</build_type></export>
+</package>

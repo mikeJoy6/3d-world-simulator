@@ -1,0 +1,1 @@
+worldsim_core;robot_state_publisher;moveit_ros_move_group;moveit_kinematics;moveit_planners_ompl;moveit_simple_controller_manager;moveit_ros_visualization;launch;launch_ros

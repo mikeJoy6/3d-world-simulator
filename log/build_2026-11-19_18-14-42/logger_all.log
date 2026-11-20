@@ -1,0 +1,448 @@
+[0.068s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build']
+[0.068s] DEBUG:colcon:Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=False, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=28, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=None, packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, verb_parser=<colcon_defaults.argument_parser.defaults.DefaultArgumentsDecorator object at 0x76f46a4fd180>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x76f46a4fcc40>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x76f46a4fcc40>>)
+[0.202s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[0.202s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[0.202s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[0.202s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[0.203s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[0.203s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[0.203s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/home/austin/worldsim_ws'
+[0.203s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.203s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[0.203s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[0.203s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[0.203s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[0.203s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[0.203s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[0.203s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[0.203s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[0.211s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['cmake', 'python']
+[0.211s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'cmake'
+[0.211s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python'
+[0.211s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['python_setup_py']
+[0.211s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python_setup_py'
+[0.211s] Level 1:colcon.colcon_core.package_identification:_identify(3d-world-sim) by extensions ['ignore', 'ignore_ament_install']
+[0.211s] Level 1:colcon.colcon_core.package_identification:_identify(3d-world-sim) by extension 'ignore'
+[0.211s] Level 1:colcon.colcon_core.package_identification:_identify(3d-world-sim) by extension 'ignore_ament_install'
+[0.211s] Level 1:colcon.colcon_core.package_identification:_identify(3d-world-sim) by extensions ['colcon_pkg']
+[0.211s] Level 1:colcon.colcon_core.package_identification:_identify(3d-world-sim) by extension 'colcon_pkg'
+[0.211s] Level 1:colcon.colcon_core.package_identification:_identify(3d-world-sim) by extensions ['colcon_meta']
+[0.211s] Level 1:colcon.colcon_core.package_identification:_identify(3d-world-sim) by extension 'colcon_meta'
+[0.211s] Level 1:colcon.colcon_core.package_identification:_identify(3d-world-sim) by extensions ['ros']
+[0.211s] Level 1:colcon.colcon_core.package_identification:_identify(3d-world-sim) by extension 'ros'
+[0.211s] Level 1:colcon.colcon_core.package_identification:_identify(3d-world-sim) by extensions ['cmake', 'python']
+[0.211s] Level 1:colcon.colcon_core.package_identification:_identify(3d-world-sim) by extension 'cmake'
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(3d-world-sim) by extension 'python'
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(3d-world-sim) by extensions ['python_setup_py']
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(3d-world-sim) by extension 'python_setup_py'
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(assets) by extensions ['ignore', 'ignore_ament_install']
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(assets) by extension 'ignore'
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(assets) ignored
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extensions ['ignore', 'ignore_ament_install']
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extension 'ignore'
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(build) ignored
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(docs) by extensions ['ignore', 'ignore_ament_install']
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(docs) by extension 'ignore'
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(docs) by extension 'ignore_ament_install'
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(docs) by extensions ['colcon_pkg']
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(docs) by extension 'colcon_pkg'
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(docs) by extensions ['colcon_meta']
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(docs) by extension 'colcon_meta'
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(docs) by extensions ['ros']
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(docs) by extension 'ros'
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(docs) by extensions ['cmake', 'python']
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(docs) by extension 'cmake'
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(docs) by extension 'python'
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(docs) by extensions ['python_setup_py']
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(docs) by extension 'python_setup_py'
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(docs/media) by extensions ['ignore', 'ignore_ament_install']
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(docs/media) by extension 'ignore'
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(docs/media) by extension 'ignore_ament_install'
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(docs/media) by extensions ['colcon_pkg']
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(docs/media) by extension 'colcon_pkg'
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(docs/media) by extensions ['colcon_meta']
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(docs/media) by extension 'colcon_meta'
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(docs/media) by extensions ['ros']
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(docs/media) by extension 'ros'
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(docs/media) by extensions ['cmake', 'python']
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(docs/media) by extension 'cmake'
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(docs/media) by extension 'python'
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(docs/media) by extensions ['python_setup_py']
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(docs/media) by extension 'python_setup_py'
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extensions ['ignore', 'ignore_ament_install']
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extension 'ignore'
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(install) ignored
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extensions ['ignore', 'ignore_ament_install']
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extension 'ignore'
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(log) ignored
+[0.213s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ignore', 'ignore_ament_install']
+[0.213s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore'
+[0.213s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore_ament_install'
+[0.213s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_pkg']
+[0.213s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_pkg'
+[0.213s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_meta']
+[0.213s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_meta'
+[0.213s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ros']
+[0.213s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ros'
+[0.213s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['cmake', 'python']
+[0.213s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'cmake'
+[0.213s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python'
+[0.213s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['python_setup_py']
+[0.213s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python_setup_py'
+[0.213s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_core) by extensions ['ignore', 'ignore_ament_install']
+[0.213s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_core) by extension 'ignore'
+[0.213s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_core) by extension 'ignore_ament_install'
+[0.213s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_core) by extensions ['colcon_pkg']
+[0.213s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_core) by extension 'colcon_pkg'
+[0.213s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_core) by extensions ['colcon_meta']
+[0.213s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_core) by extension 'colcon_meta'
+[0.213s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_core) by extensions ['ros']
+[0.213s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_core) by extension 'ros'
+[0.215s] DEBUG:colcon.colcon_core.package_identification:Package 'src/worldsim_core' with type 'ros.ament_python' and name 'worldsim_core'
+[0.215s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_description) by extensions ['ignore', 'ignore_ament_install']
+[0.215s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_description) by extension 'ignore'
+[0.215s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_description) by extension 'ignore_ament_install'
+[0.215s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_description) by extensions ['colcon_pkg']
+[0.216s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_description) by extension 'colcon_pkg'
+[0.216s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_description) by extensions ['colcon_meta']
+[0.216s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_description) by extension 'colcon_meta'
+[0.216s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_description) by extensions ['ros']
+[0.216s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_description) by extension 'ros'
+[0.216s] DEBUG:colcon.colcon_core.package_identification:Package 'src/worldsim_description' with type 'ros.ament_cmake' and name 'worldsim_description'
+[0.216s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_g2) by extensions ['ignore', 'ignore_ament_install']
+[0.216s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_g2) by extension 'ignore'
+[0.216s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_g2) by extension 'ignore_ament_install'
+[0.216s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_g2) by extensions ['colcon_pkg']
+[0.216s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_g2) by extension 'colcon_pkg'
+[0.216s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_g2) by extensions ['colcon_meta']
+[0.216s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_g2) by extension 'colcon_meta'
+[0.216s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_g2) by extensions ['ros']
+[0.216s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_g2) by extension 'ros'
+[0.217s] DEBUG:colcon.colcon_core.package_identification:Package 'src/worldsim_g2' with type 'ros.ament_cmake' and name 'worldsim_g2'
+[0.217s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_model) by extensions ['ignore', 'ignore_ament_install']
+[0.217s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_model) by extension 'ignore'
+[0.217s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_model) by extension 'ignore_ament_install'
+[0.217s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_model) by extensions ['colcon_pkg']
+[0.218s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_model) by extension 'colcon_pkg'
+[0.218s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_model) by extensions ['colcon_meta']
+[0.218s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_model) by extension 'colcon_meta'
+[0.218s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_model) by extensions ['ros']
+[0.218s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_model) by extension 'ros'
+[0.218s] DEBUG:colcon.colcon_core.package_identification:Package 'src/worldsim_model' with type 'ros.ament_cmake' and name 'worldsim_model'
+[0.218s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_sim) by extensions ['ignore', 'ignore_ament_install']
+[0.218s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_sim) by extension 'ignore'
+[0.218s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_sim) by extension 'ignore_ament_install'
+[0.218s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_sim) by extensions ['colcon_pkg']
+[0.219s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_sim) by extension 'colcon_pkg'
+[0.219s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_sim) by extensions ['colcon_meta']
+[0.219s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_sim) by extension 'colcon_meta'
+[0.219s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_sim) by extensions ['ros']
+[0.219s] Level 1:colcon.colcon_core.package_identification:_identify(src/worldsim_sim) by extension 'ros'
+[0.219s] DEBUG:colcon.colcon_core.package_identification:Package 'src/worldsim_sim' with type 'ros.ament_cmake' and name 'worldsim_sim'
+[0.219s] Level 1:colcon.colcon_core.package_identification:_identify(tools) by extensions ['ignore', 'ignore_ament_install']
+[0.219s] Level 1:colcon.colcon_core.package_identification:_identify(tools) by extension 'ignore'
+[0.219s] Level 1:colcon.colcon_core.package_identification:_identify(tools) by extension 'ignore_ament_install'
+[0.219s] Level 1:colcon.colcon_core.package_identification:_identify(tools) by extensions ['colcon_pkg']
+[0.219s] Level 1:colcon.colcon_core.package_identification:_identify(tools) by extension 'colcon_pkg'
+[0.219s] Level 1:colcon.colcon_core.package_identification:_identify(tools) by extensions ['colcon_meta']
+[0.219s] Level 1:colcon.colcon_core.package_identification:_identify(tools) by extension 'colcon_meta'
+[0.220s] Level 1:colcon.colcon_core.package_identification:_identify(tools) by extensions ['ros']
+[0.220s] Level 1:colcon.colcon_core.package_identification:_identify(tools) by extension 'ros'
+[0.220s] Level 1:colcon.colcon_core.package_identification:_identify(tools) by extensions ['cmake', 'python']
+[0.220s] Level 1:colcon.colcon_core.package_identification:_identify(tools) by extension 'cmake'
+[0.220s] Level 1:colcon.colcon_core.package_identification:_identify(tools) by extension 'python'
+[0.220s] Level 1:colcon.colcon_core.package_identification:_identify(tools) by extensions ['python_setup_py']
+[0.220s] Level 1:colcon.colcon_core.package_identification:_identify(tools) by extension 'python_setup_py'
+[0.220s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[0.220s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[0.220s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[0.220s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[0.220s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[0.243s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) check parameters
+[0.243s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) discover
+[0.245s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 367 installed packages in /opt/ros/humble
+[0.246s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) using defaults
+[0.271s] Level 5:colcon.colcon_core.verb:set package 'worldsim_core' build argument 'cmake_args' from command line to 'None'
+[0.271s] Level 5:colcon.colcon_core.verb:set package 'worldsim_core' build argument 'cmake_target' from command line to 'None'
+[0.271s] Level 5:colcon.colcon_core.verb:set package 'worldsim_core' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.271s] Level 5:colcon.colcon_core.verb:set package 'worldsim_core' build argument 'cmake_clean_cache' from command line to 'False'
+[0.271s] Level 5:colcon.colcon_core.verb:set package 'worldsim_core' build argument 'cmake_clean_first' from command line to 'False'
+[0.271s] Level 5:colcon.colcon_core.verb:set package 'worldsim_core' build argument 'cmake_force_configure' from command line to 'False'
+[0.271s] Level 5:colcon.colcon_core.verb:set package 'worldsim_core' build argument 'ament_cmake_args' from command line to 'None'
+[0.271s] Level 5:colcon.colcon_core.verb:set package 'worldsim_core' build argument 'catkin_cmake_args' from command line to 'None'
+[0.271s] Level 5:colcon.colcon_core.verb:set package 'worldsim_core' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.271s] DEBUG:colcon.colcon_core.verb:Building package 'worldsim_core' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/austin/worldsim_ws/build/worldsim_core', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/austin/worldsim_ws/install/worldsim_core', 'merge_install': False, 'path': '/home/austin/worldsim_ws/src/worldsim_core', 'symlink_install': False, 'test_result_base': None}
+[0.271s] Level 5:colcon.colcon_core.verb:set package 'worldsim_description' build argument 'cmake_args' from command line to 'None'
+[0.271s] Level 5:colcon.colcon_core.verb:set package 'worldsim_description' build argument 'cmake_target' from command line to 'None'
+[0.271s] Level 5:colcon.colcon_core.verb:set package 'worldsim_description' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.271s] Level 5:colcon.colcon_core.verb:set package 'worldsim_description' build argument 'cmake_clean_cache' from command line to 'False'
+[0.271s] Level 5:colcon.colcon_core.verb:set package 'worldsim_description' build argument 'cmake_clean_first' from command line to 'False'
+[0.271s] Level 5:colcon.colcon_core.verb:set package 'worldsim_description' build argument 'cmake_force_configure' from command line to 'False'
+[0.271s] Level 5:colcon.colcon_core.verb:set package 'worldsim_description' build argument 'ament_cmake_args' from command line to 'None'
+[0.271s] Level 5:colcon.colcon_core.verb:set package 'worldsim_description' build argument 'catkin_cmake_args' from command line to 'None'
+[0.271s] Level 5:colcon.colcon_core.verb:set package 'worldsim_description' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.271s] DEBUG:colcon.colcon_core.verb:Building package 'worldsim_description' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/austin/worldsim_ws/build/worldsim_description', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/austin/worldsim_ws/install/worldsim_description', 'merge_install': False, 'path': '/home/austin/worldsim_ws/src/worldsim_description', 'symlink_install': False, 'test_result_base': None}
+[0.271s] Level 5:colcon.colcon_core.verb:set package 'worldsim_model' build argument 'cmake_args' from command line to 'None'
+[0.271s] Level 5:colcon.colcon_core.verb:set package 'worldsim_model' build argument 'cmake_target' from command line to 'None'
+[0.271s] Level 5:colcon.colcon_core.verb:set package 'worldsim_model' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.271s] Level 5:colcon.colcon_core.verb:set package 'worldsim_model' build argument 'cmake_clean_cache' from command line to 'False'
+[0.271s] Level 5:colcon.colcon_core.verb:set package 'worldsim_model' build argument 'cmake_clean_first' from command line to 'False'
+[0.271s] Level 5:colcon.colcon_core.verb:set package 'worldsim_model' build argument 'cmake_force_configure' from command line to 'False'
+[0.271s] Level 5:colcon.colcon_core.verb:set package 'worldsim_model' build argument 'ament_cmake_args' from command line to 'None'
+[0.271s] Level 5:colcon.colcon_core.verb:set package 'worldsim_model' build argument 'catkin_cmake_args' from command line to 'None'
+[0.271s] Level 5:colcon.colcon_core.verb:set package 'worldsim_model' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.271s] DEBUG:colcon.colcon_core.verb:Building package 'worldsim_model' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/austin/worldsim_ws/build/worldsim_model', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/austin/worldsim_ws/install/worldsim_model', 'merge_install': False, 'path': '/home/austin/worldsim_ws/src/worldsim_model', 'symlink_install': False, 'test_result_base': None}
+[0.272s] Level 5:colcon.colcon_core.verb:set package 'worldsim_sim' build argument 'cmake_args' from command line to 'None'
+[0.272s] Level 5:colcon.colcon_core.verb:set package 'worldsim_sim' build argument 'cmake_target' from command line to 'None'
+[0.272s] Level 5:colcon.colcon_core.verb:set package 'worldsim_sim' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.272s] Level 5:colcon.colcon_core.verb:set package 'worldsim_sim' build argument 'cmake_clean_cache' from command line to 'False'
+[0.272s] Level 5:colcon.colcon_core.verb:set package 'worldsim_sim' build argument 'cmake_clean_first' from command line to 'False'
+[0.272s] Level 5:colcon.colcon_core.verb:set package 'worldsim_sim' build argument 'cmake_force_configure' from command line to 'False'
+[0.272s] Level 5:colcon.colcon_core.verb:set package 'worldsim_sim' build argument 'ament_cmake_args' from command line to 'None'
+[0.272s] Level 5:colcon.colcon_core.verb:set package 'worldsim_sim' build argument 'catkin_cmake_args' from command line to 'None'
+[0.272s] Level 5:colcon.colcon_core.verb:set package 'worldsim_sim' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.272s] DEBUG:colcon.colcon_core.verb:Building package 'worldsim_sim' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/austin/worldsim_ws/build/worldsim_sim', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/austin/worldsim_ws/install/worldsim_sim', 'merge_install': False, 'path': '/home/austin/worldsim_ws/src/worldsim_sim', 'symlink_install': False, 'test_result_base': None}
+[0.272s] Level 5:colcon.colcon_core.verb:set package 'worldsim_g2' build argument 'cmake_args' from command line to 'None'
+[0.272s] Level 5:colcon.colcon_core.verb:set package 'worldsim_g2' build argument 'cmake_target' from command line to 'None'
+[0.272s] Level 5:colcon.colcon_core.verb:set package 'worldsim_g2' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.272s] Level 5:colcon.colcon_core.verb:set package 'worldsim_g2' build argument 'cmake_clean_cache' from command line to 'False'
+[0.272s] Level 5:colcon.colcon_core.verb:set package 'worldsim_g2' build argument 'cmake_clean_first' from command line to 'False'
+[0.272s] Level 5:colcon.colcon_core.verb:set package 'worldsim_g2' build argument 'cmake_force_configure' from command line to 'False'
+[0.272s] Level 5:colcon.colcon_core.verb:set package 'worldsim_g2' build argument 'ament_cmake_args' from command line to 'None'
+[0.272s] Level 5:colcon.colcon_core.verb:set package 'worldsim_g2' build argument 'catkin_cmake_args' from command line to 'None'
+[0.272s] Level 5:colcon.colcon_core.verb:set package 'worldsim_g2' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.272s] DEBUG:colcon.colcon_core.verb:Building package 'worldsim_g2' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/austin/worldsim_ws/build/worldsim_g2', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/austin/worldsim_ws/install/worldsim_g2', 'merge_install': False, 'path': '/home/austin/worldsim_ws/src/worldsim_g2', 'symlink_install': False, 'test_result_base': None}
+[0.272s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[0.273s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[0.273s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/austin/worldsim_ws/src/worldsim_core' with build type 'ament_python'
+[0.273s] Level 1:colcon.colcon_core.shell:create_environment_hook('worldsim_core', 'ament_prefix_path')
+[0.274s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.274s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/austin/worldsim_ws/install/worldsim_core/share/worldsim_core/hook/ament_prefix_path.ps1'
+[0.275s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/austin/worldsim_ws/install/worldsim_core/share/worldsim_core/hook/ament_prefix_path.dsv'
+[0.275s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/austin/worldsim_ws/install/worldsim_core/share/worldsim_core/hook/ament_prefix_path.sh'
+[0.276s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.276s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.418s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/austin/worldsim_ws/src/worldsim_core'
+[0.418s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.418s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.674s] DEBUG:colcon.colcon_core.task.python.build:Available setuptools commands: build_clib, install_lib, upload_docs, sdist, build_py, alias, bdist, easy_install, install_headers, nosetests, register, bdist_wheel, clean, build_ext, update_catalog, install_scripts, build_scripts, dist_info, extract_messages, rotate, saveopts, build, bdist_dumb, init_catalog, install, upload, install_egg_info, install_data, bdist_rpm, test, symlink_data, check, egg_info, develop, bdist_egg, compile_catalog, setopt
+[0.677s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/austin/worldsim_ws/src/worldsim_core': PYTHONPATH=/home/austin/worldsim_ws/build/worldsim_core/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/worldsim_core build --build-base /home/austin/worldsim_ws/build/worldsim_core/build install --record /home/austin/worldsim_ws/build/worldsim_core/install.log --install-scripts $base/lib/worldsim_core --single-version-externally-managed install_data
+[0.838s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/austin/worldsim_ws/src/worldsim_core' returned '0': PYTHONPATH=/home/austin/worldsim_ws/build/worldsim_core/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/worldsim_core build --build-base /home/austin/worldsim_ws/build/worldsim_core/build install --record /home/austin/worldsim_ws/build/worldsim_core/install.log --install-scripts $base/lib/worldsim_core --single-version-externally-managed install_data
+[0.840s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_core' for CMake module files
+[0.840s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_core' for CMake config files
+[0.840s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_core/lib'
+[0.840s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_core/bin'
+[0.840s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_core/lib/pkgconfig/worldsim_core.pc'
+[0.841s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages'
+[0.841s] Level 1:colcon.colcon_core.shell:create_environment_hook('worldsim_core', 'pythonpath')
+[0.841s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/austin/worldsim_ws/install/worldsim_core/share/worldsim_core/hook/pythonpath.ps1'
+[0.841s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/austin/worldsim_ws/install/worldsim_core/share/worldsim_core/hook/pythonpath.dsv'
+[0.841s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/austin/worldsim_ws/install/worldsim_core/share/worldsim_core/hook/pythonpath.sh'
+[0.841s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_core/bin'
+[0.842s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(worldsim_core)
+[0.842s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_core/share/worldsim_core/package.ps1'
+[0.842s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/austin/worldsim_ws/install/worldsim_core/share/worldsim_core/package.dsv'
+[0.843s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_core/share/worldsim_core/package.sh'
+[0.843s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_core/share/worldsim_core/package.bash'
+[0.844s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_core/share/worldsim_core/package.zsh'
+[0.844s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/austin/worldsim_ws/install/worldsim_core/share/colcon-core/packages/worldsim_core)
+[0.844s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/austin/worldsim_ws/src/worldsim_description' with build type 'ament_cmake'
+[0.844s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/austin/worldsim_ws/src/worldsim_description'
+[0.844s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.844s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.847s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/austin/worldsim_ws/src/worldsim_model' with build type 'ament_cmake'
+[0.847s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/austin/worldsim_ws/src/worldsim_model'
+[0.847s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.847s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.850s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/austin/worldsim_ws/build/worldsim_description': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake /home/austin/worldsim_ws/src/worldsim_description -DCMAKE_INSTALL_PREFIX=/home/austin/worldsim_ws/install/worldsim_description
+[0.853s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/austin/worldsim_ws/build/worldsim_model': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake /home/austin/worldsim_ws/src/worldsim_model -DCMAKE_INSTALL_PREFIX=/home/austin/worldsim_ws/install/worldsim_model
+[1.336s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/austin/worldsim_ws/build/worldsim_description' returned '0': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake /home/austin/worldsim_ws/src/worldsim_description -DCMAKE_INSTALL_PREFIX=/home/austin/worldsim_ws/install/worldsim_description
+[1.339s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/austin/worldsim_ws/build/worldsim_description': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake --build /home/austin/worldsim_ws/build/worldsim_description -- -j28 -l28
+[1.340s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/austin/worldsim_ws/build/worldsim_model' returned '0': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake /home/austin/worldsim_ws/src/worldsim_model -DCMAKE_INSTALL_PREFIX=/home/austin/worldsim_ws/install/worldsim_model
+[1.341s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/austin/worldsim_ws/build/worldsim_model': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake --build /home/austin/worldsim_ws/build/worldsim_model -- -j28 -l28
+[1.363s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/austin/worldsim_ws/build/worldsim_description' returned '0': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake --build /home/austin/worldsim_ws/build/worldsim_description -- -j28 -l28
+[1.370s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/austin/worldsim_ws/build/worldsim_description': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake --install /home/austin/worldsim_ws/build/worldsim_description
+[1.372s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/austin/worldsim_ws/build/worldsim_model' returned '0': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake --build /home/austin/worldsim_ws/build/worldsim_model -- -j28 -l28
+[1.373s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/austin/worldsim_ws/build/worldsim_model': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake --install /home/austin/worldsim_ws/build/worldsim_model
+[1.385s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(worldsim_model)
+[1.385s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/austin/worldsim_ws/build/worldsim_model' returned '0': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake --install /home/austin/worldsim_ws/build/worldsim_model
+[1.386s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_model' for CMake module files
+[1.386s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_model' for CMake config files
+[1.386s] Level 1:colcon.colcon_core.shell:create_environment_hook('worldsim_model', 'cmake_prefix_path')
+[1.386s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/austin/worldsim_ws/install/worldsim_model/share/worldsim_model/hook/cmake_prefix_path.ps1'
+[1.387s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/austin/worldsim_ws/install/worldsim_model/share/worldsim_model/hook/cmake_prefix_path.dsv'
+[1.387s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/austin/worldsim_ws/install/worldsim_model/share/worldsim_model/hook/cmake_prefix_path.sh'
+[1.387s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_model/lib'
+[1.387s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_model/bin'
+[1.387s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_model/lib/pkgconfig/worldsim_model.pc'
+[1.387s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_model/lib/python3.10/site-packages'
+[1.387s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_model/bin'
+[1.388s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_model/share/worldsim_model/package.ps1'
+[1.388s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/austin/worldsim_ws/install/worldsim_model/share/worldsim_model/package.dsv'
+[1.388s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_model/share/worldsim_model/package.sh'
+[1.388s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_model/share/worldsim_model/package.bash'
+[1.388s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_model/share/worldsim_model/package.zsh'
+[1.388s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/austin/worldsim_ws/install/worldsim_model/share/colcon-core/packages/worldsim_model)
+[1.389s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(worldsim_model)
+[1.389s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_model' for CMake module files
+[1.389s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_model' for CMake config files
+[1.389s] Level 1:colcon.colcon_core.shell:create_environment_hook('worldsim_model', 'cmake_prefix_path')
+[1.389s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/austin/worldsim_ws/install/worldsim_model/share/worldsim_model/hook/cmake_prefix_path.ps1'
+[1.390s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/austin/worldsim_ws/install/worldsim_model/share/worldsim_model/hook/cmake_prefix_path.dsv'
+[1.390s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/austin/worldsim_ws/install/worldsim_model/share/worldsim_model/hook/cmake_prefix_path.sh'
+[1.390s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_model/lib'
+[1.390s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_model/bin'
+[1.390s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_model/lib/pkgconfig/worldsim_model.pc'
+[1.390s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_model/lib/python3.10/site-packages'
+[1.390s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_model/bin'
+[1.391s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_model/share/worldsim_model/package.ps1'
+[1.391s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/austin/worldsim_ws/install/worldsim_model/share/worldsim_model/package.dsv'
+[1.391s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_model/share/worldsim_model/package.sh'
+[1.391s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_model/share/worldsim_model/package.bash'
+[1.392s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_model/share/worldsim_model/package.zsh'
+[1.392s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/austin/worldsim_ws/install/worldsim_model/share/colcon-core/packages/worldsim_model)
+[1.392s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(worldsim_description)
+[1.393s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_description' for CMake module files
+[1.393s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/austin/worldsim_ws/build/worldsim_description' returned '0': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake --install /home/austin/worldsim_ws/build/worldsim_description
+[1.393s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_description' for CMake config files
+[1.394s] Level 1:colcon.colcon_core.shell:create_environment_hook('worldsim_description', 'cmake_prefix_path')
+[1.394s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/hook/cmake_prefix_path.ps1'
+[1.394s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/hook/cmake_prefix_path.dsv'
+[1.394s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/hook/cmake_prefix_path.sh'
+[1.395s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_description/bin'
+[1.395s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_description/lib/pkgconfig/worldsim_description.pc'
+[1.395s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_description/lib/python3.10/site-packages'
+[1.395s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_description/bin'
+[1.396s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/package.ps1'
+[1.396s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/package.dsv'
+[1.396s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/package.sh'
+[1.396s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/package.bash'
+[1.397s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/package.zsh'
+[1.397s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/austin/worldsim_ws/install/worldsim_description/share/colcon-core/packages/worldsim_description)
+[1.397s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(worldsim_description)
+[1.397s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_description' for CMake module files
+[1.398s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_description' for CMake config files
+[1.398s] Level 1:colcon.colcon_core.shell:create_environment_hook('worldsim_description', 'cmake_prefix_path')
+[1.398s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/hook/cmake_prefix_path.ps1'
+[1.398s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/hook/cmake_prefix_path.dsv'
+[1.398s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/hook/cmake_prefix_path.sh'
+[1.399s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_description/bin'
+[1.399s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_description/lib/pkgconfig/worldsim_description.pc'
+[1.399s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_description/lib/python3.10/site-packages'
+[1.399s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_description/bin'
+[1.399s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/package.ps1'
+[1.399s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/package.dsv'
+[1.400s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/package.sh'
+[1.400s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/package.bash'
+[1.400s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/package.zsh'
+[1.400s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/austin/worldsim_ws/install/worldsim_description/share/colcon-core/packages/worldsim_description)
+[1.400s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/austin/worldsim_ws/src/worldsim_sim' with build type 'ament_cmake'
+[1.400s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/austin/worldsim_ws/src/worldsim_sim'
+[1.401s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.401s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[1.409s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/austin/worldsim_ws/build/worldsim_sim': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake /home/austin/worldsim_ws/src/worldsim_sim -DCMAKE_INSTALL_PREFIX=/home/austin/worldsim_ws/install/worldsim_sim
+[1.816s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/austin/worldsim_ws/build/worldsim_sim' returned '0': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake /home/austin/worldsim_ws/src/worldsim_sim -DCMAKE_INSTALL_PREFIX=/home/austin/worldsim_ws/install/worldsim_sim
+[1.816s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/austin/worldsim_ws/build/worldsim_sim': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake --build /home/austin/worldsim_ws/build/worldsim_sim -- -j28 -l28
+[1.842s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/austin/worldsim_ws/build/worldsim_sim' returned '0': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake --build /home/austin/worldsim_ws/build/worldsim_sim -- -j28 -l28
+[1.844s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/austin/worldsim_ws/build/worldsim_sim': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake --install /home/austin/worldsim_ws/build/worldsim_sim
+[1.851s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(worldsim_sim)
+[1.851s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/austin/worldsim_ws/build/worldsim_sim' returned '0': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake --install /home/austin/worldsim_ws/build/worldsim_sim
+[1.852s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_sim' for CMake module files
+[1.852s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_sim' for CMake config files
+[1.852s] Level 1:colcon.colcon_core.shell:create_environment_hook('worldsim_sim', 'cmake_prefix_path')
+[1.852s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/hook/cmake_prefix_path.ps1'
+[1.853s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/hook/cmake_prefix_path.dsv'
+[1.853s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/hook/cmake_prefix_path.sh'
+[1.853s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_sim/lib'
+[1.853s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_sim/bin'
+[1.853s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_sim/lib/pkgconfig/worldsim_sim.pc'
+[1.853s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_sim/lib/python3.10/site-packages'
+[1.854s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_sim/bin'
+[1.854s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/package.ps1'
+[1.854s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/package.dsv'
+[1.854s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/package.sh'
+[1.854s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/package.bash'
+[1.854s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/package.zsh'
+[1.855s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/austin/worldsim_ws/install/worldsim_sim/share/colcon-core/packages/worldsim_sim)
+[1.855s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(worldsim_sim)
+[1.855s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_sim' for CMake module files
+[1.855s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_sim' for CMake config files
+[1.855s] Level 1:colcon.colcon_core.shell:create_environment_hook('worldsim_sim', 'cmake_prefix_path')
+[1.855s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/hook/cmake_prefix_path.ps1'
+[1.856s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/hook/cmake_prefix_path.dsv'
+[1.856s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/hook/cmake_prefix_path.sh'
+[1.856s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_sim/lib'
+[1.856s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_sim/bin'
+[1.856s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_sim/lib/pkgconfig/worldsim_sim.pc'
+[1.856s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_sim/lib/python3.10/site-packages'
+[1.856s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_sim/bin'
+[1.856s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/package.ps1'
+[1.857s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/package.dsv'
+[1.857s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/package.sh'
+[1.857s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/package.bash'
+[1.857s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/package.zsh'
+[1.857s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/austin/worldsim_ws/install/worldsim_sim/share/colcon-core/packages/worldsim_sim)
+[1.858s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/austin/worldsim_ws/src/worldsim_g2' with build type 'ament_cmake'
+[1.858s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/austin/worldsim_ws/src/worldsim_g2'
+[1.858s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.858s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[1.868s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/austin/worldsim_ws/build/worldsim_g2': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_sim:/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_sim:/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake /home/austin/worldsim_ws/src/worldsim_g2 -DCMAKE_INSTALL_PREFIX=/home/austin/worldsim_ws/install/worldsim_g2
+[2.271s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/austin/worldsim_ws/build/worldsim_g2' returned '0': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_sim:/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_sim:/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake /home/austin/worldsim_ws/src/worldsim_g2 -DCMAKE_INSTALL_PREFIX=/home/austin/worldsim_ws/install/worldsim_g2
+[2.272s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/austin/worldsim_ws/build/worldsim_g2': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_sim:/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_sim:/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake --build /home/austin/worldsim_ws/build/worldsim_g2 -- -j28 -l28
+[2.303s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/austin/worldsim_ws/build/worldsim_g2' returned '0': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_sim:/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_sim:/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake --build /home/austin/worldsim_ws/build/worldsim_g2 -- -j28 -l28
+[2.304s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/austin/worldsim_ws/build/worldsim_g2': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_sim:/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_sim:/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake --install /home/austin/worldsim_ws/build/worldsim_g2
+[2.313s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(worldsim_g2)
+[2.314s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/austin/worldsim_ws/build/worldsim_g2' returned '0': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_sim:/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_sim:/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake --install /home/austin/worldsim_ws/build/worldsim_g2
+[2.314s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_g2' for CMake module files
+[2.314s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_g2' for CMake config files
+[2.314s] Level 1:colcon.colcon_core.shell:create_environment_hook('worldsim_g2', 'cmake_prefix_path')
+[2.315s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/austin/worldsim_ws/install/worldsim_g2/share/worldsim_g2/hook/cmake_prefix_path.ps1'
+[2.315s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/austin/worldsim_ws/install/worldsim_g2/share/worldsim_g2/hook/cmake_prefix_path.dsv'
+[2.315s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/austin/worldsim_ws/install/worldsim_g2/share/worldsim_g2/hook/cmake_prefix_path.sh'
+[2.315s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_g2/lib'
+[2.315s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_g2/bin'
+[2.315s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_g2/lib/pkgconfig/worldsim_g2.pc'
+[2.315s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_g2/lib/python3.10/site-packages'
+[2.316s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_g2/bin'
+[2.316s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_g2/share/worldsim_g2/package.ps1'
+[2.316s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/austin/worldsim_ws/install/worldsim_g2/share/worldsim_g2/package.dsv'
+[2.316s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_g2/share/worldsim_g2/package.sh'
+[2.317s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_g2/share/worldsim_g2/package.bash'
+[2.317s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_g2/share/worldsim_g2/package.zsh'
+[2.317s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/austin/worldsim_ws/install/worldsim_g2/share/colcon-core/packages/worldsim_g2)
+[2.317s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(worldsim_g2)
+[2.317s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_g2' for CMake module files
+[2.318s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_g2' for CMake config files
+[2.318s] Level 1:colcon.colcon_core.shell:create_environment_hook('worldsim_g2', 'cmake_prefix_path')
+[2.318s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/austin/worldsim_ws/install/worldsim_g2/share/worldsim_g2/hook/cmake_prefix_path.ps1'
+[2.318s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/austin/worldsim_ws/install/worldsim_g2/share/worldsim_g2/hook/cmake_prefix_path.dsv'
+[2.318s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/austin/worldsim_ws/install/worldsim_g2/share/worldsim_g2/hook/cmake_prefix_path.sh'
+[2.318s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_g2/lib'
+[2.318s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_g2/bin'
+[2.318s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_g2/lib/pkgconfig/worldsim_g2.pc'
+[2.319s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_g2/lib/python3.10/site-packages'
+[2.319s] Level 1:colcon.colcon_core.environment:checking '/home/austin/worldsim_ws/install/worldsim_g2/bin'
+[2.319s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_g2/share/worldsim_g2/package.ps1'
+[2.319s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/austin/worldsim_ws/install/worldsim_g2/share/worldsim_g2/package.dsv'
+[2.319s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_g2/share/worldsim_g2/package.sh'
+[2.320s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_g2/share/worldsim_g2/package.bash'
+[2.320s] INFO:colcon.colcon_core.shell:Creating package script '/home/austin/worldsim_ws/install/worldsim_g2/share/worldsim_g2/package.zsh'
+[2.320s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/austin/worldsim_ws/install/worldsim_g2/share/colcon-core/packages/worldsim_g2)
+[2.320s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[2.320s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[2.320s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[2.320s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[2.324s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[2.324s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[2.324s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[2.335s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[2.336s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/austin/worldsim_ws/install/local_setup.ps1'
+[2.337s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/austin/worldsim_ws/install/_local_setup_util_ps1.py'
+[2.338s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/austin/worldsim_ws/install/setup.ps1'
+[2.338s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/austin/worldsim_ws/install/local_setup.sh'
+[2.339s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/austin/worldsim_ws/install/_local_setup_util_sh.py'
+[2.340s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/austin/worldsim_ws/install/setup.sh'
+[2.340s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/austin/worldsim_ws/install/local_setup.bash'
+[2.341s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/austin/worldsim_ws/install/setup.bash'
+[2.341s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/austin/worldsim_ws/install/local_setup.zsh'
+[2.341s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/austin/worldsim_ws/install/setup.zsh'

@@ -1,0 +1,206 @@
+{
+ "task": "assembly",
+ "title": "Part Assembly",
+ "dataset": "assembly",
+ "seed": {
+  "file": "seed_episode_10.h5",
+  "episode": 10,
+  "frame": 5
+ },
+ "n_history": 8,
+ "workspace": {
+  "min": [
+   [
+    0.3,
+    -0.006,
+    0.115
+   ],
+   [
+    0.35,
+    0.0,
+    0.15
+   ]
+  ],
+  "max": [
+   [
+    0.45,
+    -0.006,
+    0.325
+   ],
+   [
+    0.4,
+    0.0,
+    0.15
+   ]
+  ],
+  "keepout": [
+   {
+    "arm": 0,
+    "lo": [
+     0.4,
+     -9.0,
+     0.115
+    ],
+    "hi": [
+     0.45,
+     9.0,
+     0.235
+    ]
+   }
+  ]
+ },
+ "control": {
+  "step": 0.0035,
+  "keys": {
+   "j": [
+    0,
+    0,
+    1
+   ],
+   "l": [
+    0,
+    0,
+    -1
+   ],
+   "i": [
+    0,
+    2,
+    1
+   ],
+   "k": [
+    0,
+    2,
+    -1
+   ]
+  },
+  "orient": "seed",
+  "locked_arms": [
+   1
+  ]
+ },
+ "view": {
+  "az": -93.4,
+  "el": 34.2,
+  "radius": 0.74
+ },
+ "exposure": 1.55,
+ "scan_white_balance": [
+  0.97,
+  1.0,
+  1.06
+ ],
+ "scan_room_gain": 1.0,
+ "scan_wall_saturation": 0.5,
+ "class_filters": false,
+ "table_feather": 0.15,
+ "table_edge_faces": null,
+ "background": "../background/scan_room.pt",
+ "arms": "../arms/rig.pt",
+ "sources": {
+  "vae": "/home/jimmy/robopil/jimmy/rollout_view_1019/3dws/data/view/plug/vae_aniso_opaque.pth",
+  "dynamics": "/home/jimmy/robopil/jimmy/3dws/checkpoints/bimanual_plug_all/dynamics_particle_vae_bighead_aniso_tactile_v2_noteleop_h8_ar1to10_500_l3_film_full_tactile20_e499_plugft_1102e/checkpoints/model_9.pth",
+  "latents": "/home/jimmy/robopil/jimmy/rollout_view_1019/3dws/data/view/plug/latents/train/episode_10_latents.h5",
+  "vae_epoch": 9,
+  "dynamics_epoch": 9
+ },
+ "arm_base": [
+  [
+   [
+    -0.999717,
+    0.015108,
+    -0.018361,
+    0.483393
+   ],
+   [
+    -0.015184,
+    -0.999877,
+    0.003964,
+    0.018006
+   ],
+   [
+    -0.018299,
+    0.004242,
+    0.999824,
+    -0.064066
+   ],
+   [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ]
+  ],
+  [
+   [
+    0.997397,
+    0.069656,
+    0.018637,
+    -0.578227
+   ],
+   [
+    -0.069856,
+    0.997504,
+    0.010302,
+    0.064408
+   ],
+   [
+    -0.017873,
+    -0.011577,
+    0.999773,
+    -0.03265
+   ],
+   [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ]
+  ]
+ ],
+ "latent_pca": {
+  "ch": [
+   0,
+   8
+  ],
+  "mean": [
+   -0.44640928506851196,
+   -0.1796482503414154,
+   0.6751055121421814,
+   -0.4480672776699066,
+   -0.23375166952610016,
+   -0.3335404098033905,
+   -0.6733669638633728,
+   -0.4830303192138672
+  ],
+  "pc": [
+   0.031858351081609726,
+   0.037577930837869644,
+   0.007702167145907879,
+   0.053702011704444885,
+   -0.30099472403526306,
+   -0.5570111274719238,
+   -0.29379552602767944,
+   0.7123585343360901
+  ],
+  "q": [
+   -0.7754835486412048,
+   -0.21882745623588562,
+   0.06801895797252655,
+   0.25392255187034607,
+   0.5046723484992981
+  ]
+ },
+ "multi_cams": [
+  0,
+  1,
+  2
+ ],
+ "multi_view": "render_cams",
+ "point_gain": 1.544,
+ "point_size_mm": 0.5,
+ "scan_table_gain": [
+  1.038,
+  0.9689,
+  0.9753
+ ]
+}

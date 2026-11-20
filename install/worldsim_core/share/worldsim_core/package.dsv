@@ -1,0 +1,6 @@
+source;share/worldsim_core/hook/pythonpath.ps1
+source;share/worldsim_core/hook/pythonpath.dsv
+source;share/worldsim_core/hook/pythonpath.sh
+source;share/worldsim_core/hook/ament_prefix_path.ps1
+source;share/worldsim_core/hook/ament_prefix_path.dsv
+source;share/worldsim_core/hook/ament_prefix_path.sh

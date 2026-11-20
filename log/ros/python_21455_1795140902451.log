@@ -1,0 +1,4 @@
+[INFO] [1795140902.731563331] [world_model]: [None] loading pusht
+[INFO] [1795140907.074402238] [world_model]: Loaded pusht in 4.3 s (follow mode).
+[INFO] [1795141078.468014373] [world_model]: [pusht] waiting for the robot to reach the seed pose
+[INFO] [1795141078.520076653] [world_model]: [pusht] following the robot

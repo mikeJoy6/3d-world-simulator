@@ -1,0 +1,28 @@
+# The simulated arms (worldsim_sim/sim_robot) serve one FollowJointTrajectory action per group.
+moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
+moveit_simple_controller_manager:
+  controller_names: [arm0_controller, arm1_controller, arm0_gripper_controller, arm1_gripper_controller]
+  arm0_controller:
+    type: FollowJointTrajectory
+    action_ns: follow_joint_trajectory
+    default: true
+    joints: [arm0_waist, arm0_shoulder, arm0_elbow, arm0_forearm_roll, arm0_wrist_angle, arm0_wrist_rotate]
+  arm1_controller:
+    type: FollowJointTrajectory
+    action_ns: follow_joint_trajectory
+    default: true
+    joints: [arm1_waist, arm1_shoulder, arm1_elbow, arm1_forearm_roll, arm1_wrist_angle, arm1_wrist_rotate]
+  arm0_gripper_controller:
+    type: FollowJointTrajectory
+    action_ns: follow_joint_trajectory
+    default: true
+    joints: [arm0_left_finger]
+  arm1_gripper_controller:
+    type: FollowJointTrajectory
+    action_ns: follow_joint_trajectory
+    default: true
+    joints: [arm1_left_finger]
+trajectory_execution:
+  allowed_execution_duration_scaling: 1.5
+  allowed_goal_duration_margin: 0.5
+  allowed_start_tolerance: 0.02

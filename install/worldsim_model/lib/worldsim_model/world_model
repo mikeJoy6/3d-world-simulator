@@ -1,0 +1,4 @@
+#!/bin/bash
+# The world model node runs in this workspace's CUDA environment (tools/wspython).
+set -eu
+exec "/home/austin/worldsim_ws/tools/wspython" "$(ros2 pkg prefix --share worldsim_model)/world_model_node.py" "$@"

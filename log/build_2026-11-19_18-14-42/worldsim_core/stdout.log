@@ -1,0 +1,48 @@
+running egg_info
+creating ../../build/worldsim_core/worldsim_core.egg-info
+writing ../../build/worldsim_core/worldsim_core.egg-info/PKG-INFO
+writing dependency_links to ../../build/worldsim_core/worldsim_core.egg-info/dependency_links.txt
+writing requirements to ../../build/worldsim_core/worldsim_core.egg-info/requires.txt
+writing top-level names to ../../build/worldsim_core/worldsim_core.egg-info/top_level.txt
+writing manifest file '../../build/worldsim_core/worldsim_core.egg-info/SOURCES.txt'
+reading manifest file '../../build/worldsim_core/worldsim_core.egg-info/SOURCES.txt'
+writing manifest file '../../build/worldsim_core/worldsim_core.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/austin/worldsim_ws/build/worldsim_core/build
+creating /home/austin/worldsim_ws/build/worldsim_core/build/lib
+creating /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core
+copying worldsim_core/tasks.py -> /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core
+copying worldsim_core/engine.py -> /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core
+copying worldsim_core/__init__.py -> /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core
+copying worldsim_core/teleop.py -> /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core
+copying worldsim_core/mapping.py -> /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core
+copying worldsim_core/transforms.py -> /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core
+copying worldsim_core/robot.py -> /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core
+running install
+running install_lib
+creating /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core
+copying /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core/tasks.py -> /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core
+copying /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core/engine.py -> /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core
+copying /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core/__init__.py -> /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core
+copying /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core/teleop.py -> /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core
+copying /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core/mapping.py -> /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core
+copying /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core/transforms.py -> /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core
+copying /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core/robot.py -> /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core
+byte-compiling /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core/tasks.py to tasks.cpython-310.pyc
+byte-compiling /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core/engine.py to engine.cpython-310.pyc
+byte-compiling /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core/__init__.py to __init__.cpython-310.pyc
+byte-compiling /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core/teleop.py to teleop.cpython-310.pyc
+byte-compiling /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core/mapping.py to mapping.cpython-310.pyc
+byte-compiling /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core/transforms.py to transforms.cpython-310.pyc
+byte-compiling /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core/robot.py to robot.cpython-310.pyc
+running install_data
+creating /home/austin/worldsim_ws/install/worldsim_core/share/ament_index
+creating /home/austin/worldsim_ws/install/worldsim_core/share/ament_index/resource_index
+creating /home/austin/worldsim_ws/install/worldsim_core/share/ament_index/resource_index/packages
+copying resource/worldsim_core -> /home/austin/worldsim_ws/install/worldsim_core/share/ament_index/resource_index/packages
+copying package.xml -> /home/austin/worldsim_ws/install/worldsim_core/share/worldsim_core
+running install_egg_info
+Copying ../../build/worldsim_core/worldsim_core.egg-info to /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core-0.2.0-py3.10.egg-info
+running install_scripts
+writing list of installed files to '/home/austin/worldsim_ws/build/worldsim_core/install.log'

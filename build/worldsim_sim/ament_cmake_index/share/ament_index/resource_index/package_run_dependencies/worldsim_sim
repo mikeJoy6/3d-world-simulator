@@ -1,0 +1,1 @@
+worldsim_core;worldsim_model;worldsim_description;rclpy;std_msgs;sensor_msgs;control_msgs;tf2_ros;python3-pyqt5;rviz2;moveit_ros_visualization;launch;launch_ros;ament_index_python

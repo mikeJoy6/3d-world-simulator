@@ -1,0 +1,4 @@
+source;share/worldsim_model/local_setup.bash
+source;share/worldsim_model/local_setup.dsv
+source;share/worldsim_model/local_setup.sh
+source;share/worldsim_model/local_setup.zsh

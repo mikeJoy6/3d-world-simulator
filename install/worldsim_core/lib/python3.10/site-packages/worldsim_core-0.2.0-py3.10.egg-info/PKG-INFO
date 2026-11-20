@@ -1,0 +1,12 @@
+Metadata-Version: 2.1
+Name: worldsim-core
+Version: 0.2.0
+Summary: Core of the local world simulator: engine, robot model, action mapping, teleoperation.
+Home-page: UNKNOWN
+Maintainer: Local workspace maintainer
+Maintainer-email: maintainer@localhost.localdomain
+License: See upstream terms for bundled model code and weights
+Platform: UNKNOWN
+
+UNKNOWN
+

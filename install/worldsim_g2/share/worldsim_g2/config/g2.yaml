@@ -1,0 +1,34 @@
+# The world model driven by the real AgiBot G2 (cross-embodiment: the model was trained on two ViperX arms).
+#
+# Model arm 0 <- G2 right arm, model arm 1 <- G2 left arm. Mapping "relative": when following starts (start-up, R or a
+# task switch) the G2 end-effector poses are tied to the seed frame's actions; afterwards the model sees the G2 motion
+# since then, with G2 base_link axes turned into each model arm's action frame by `axes` (row-major 3x3, action <- robot;
+# identity = G2 forward/left/up is the model arm's forward/left/up) and translations scaled by `scale`.
+#
+# Both nodes need the G2 TF tree (robot_state_publisher of the G2 stack). ee_teleop also needs the G2 move_group
+# (planning groups left_arm_group / right_arm_group) and the arm JTCs; see ~/agi@g2_robot hardware.launch.py.
+world_model:
+  ros__parameters:
+    mode: follow
+    world_frame: worldsim_world
+    gripper_source: topic          # the G2 joint states carry no gripper: ee_teleop's command (seed value, H key)
+    wait_for_seed: false           # a real arm cannot jump to the seed pose; relative mapping ties it there instead
+    arm0: {frame: base_link, tip: arm_r_end_link, mapping: relative, scale: 1.0, axes: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]}
+    arm1: {frame: base_link, tip: arm_l_end_link, mapping: relative, scale: 1.0, axes: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]}
+
+ee_teleop:
+  ros__parameters:
+    enable_motion: false           # plans only; set true (launch arg enable_motion:=true) after checking the plans
+    planning_frame: base_link
+    velocity_scaling: 0.1
+    acceleration_scaling: 0.1
+    max_cartesian_step: 0.005
+    jump_threshold: 5.0            # reject joint-space jumps in the Cartesian path
+    blocked_fraction: 0.2
+    avoid_collisions: true
+    # MoveIt's model frame for G2 is `world` (SRDF virtual joint world -> base_link, fixed, identity), so poses in
+    # base_link are sent with header `world` as they are.
+    arm0: {group: right_arm_group, tip: arm_r_end_link, frame: base_link, request_frame: world, mapping: relative, scale: 1.0,
+           controller: /right_arm_group_controller/follow_joint_trajectory, axes: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]}
+    arm1: {group: left_arm_group, tip: arm_l_end_link, frame: base_link, request_frame: world, mapping: relative, scale: 1.0,
+           controller: /left_arm_group_controller/follow_joint_trajectory, axes: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]}

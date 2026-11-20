@@ -1,0 +1,211 @@
+#!/usr/bin/python3
+"""Native desktop controls for the local world-model simulator: task buttons, held keys -> /worldsim/key, reset,
+the model camera, and the status of the world model and of the MoveIt end-effector control."""
+import json
+import signal
+import sys
+
+import rclpy
+from rclpy.node import Node
+from rclpy.qos import DurabilityPolicy, QoSProfile
+from sensor_msgs.msg import Image
+from std_msgs.msg import Empty, String
+from PyQt5.QtCore import QEvent, Qt, QTimer
+from PyQt5.QtGui import QImage, QPixmap
+from PyQt5.QtWidgets import (QApplication, QGridLayout, QHBoxLayout, QLabel,
+                             QPushButton, QVBoxLayout, QWidget)
+
+from worldsim_core.tasks import TaskConfig
+
+LABELS = {'pusht': '推 T 形块', 'cloth': '叠布', 'box': '操作箱子', 'assembly': '插头装配'}
+AXES = 'XYZ'
+
+
+def task_hint(name):
+    """(label, hint, keys) from the task's own task.json."""
+    t = TaskConfig(name)
+    lines = []
+    for arm in (0, 1):
+        if arm in t.locked:
+            lines.append(f'臂 {arm}  固定')
+            continue
+        by_axis = {}
+        for key, (a, axis, sign) in sorted(t.keys.items()):
+            if a == arm:
+                by_axis.setdefault(axis, []).append((sign, key.upper()))
+        parts = [f'{AXES[ax]} ' + '/'.join(k for _, k in sorted(v)) for ax, v in sorted(by_axis.items())]
+        lines.append(f'臂 {arm}  ' + '   '.join(parts))
+    grips = t.gripper_keys()
+    if grips:
+        lines.append('   '.join(f'{k.upper()}  开合臂 {a} 的夹爪' for k, a in grips.items()))
+    return LABELS.get(name, name), '\n'.join(lines), ''.join(t.keys) + ''.join(grips)
+
+
+TASKS = {name: task_hint(name) for name in LABELS}
+
+class Controls(QWidget):
+    def __init__(self, node):
+        super().__init__()
+        self.node = node
+        self.task = None
+        self.pending = None
+        self.held = set()
+        self.setWindowTitle('WorldSim · 键盘控制')
+        self.setFocusPolicy(Qt.StrongFocus)
+        self.setStyleSheet("""
+            QWidget { background:#f3f4f1; color:#24362f; font-size:15px; }
+            QPushButton { background:white; border:1px solid #aab9b0; border-radius:5px; padding:7px 12px; }
+            QPushButton:checked { background:#176451; color:white; border-color:#176451; }
+            QPushButton:disabled { color:#828a85; }
+            QLabel#picture { background:#222b28; color:white; }
+        """)
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(14,14,14,14)
+        layout.setSpacing(10)
+        self.picture = QLabel('等待模型画面')
+        self.picture.setObjectName('picture')
+        self.picture.setFixedSize(448,280)
+        self.picture.setAlignment(Qt.AlignCenter)
+        layout.addWidget(self.picture)
+        choices = QGridLayout()
+        self.buttons = {}
+        for i,(task, (label, _, _)) in enumerate(TASKS.items()):
+            button = QPushButton(label)
+            button.setCheckable(True)
+            button.setFocusPolicy(Qt.NoFocus)
+            button.clicked.connect(lambda checked, t=task: self.choose(t))
+            choices.addWidget(button, 0, i)
+            self.buttons[task] = button
+        layout.addLayout(choices)
+        self.hint = QLabel('正在加载模型…')
+        self.hint.setMinimumHeight(44)
+        layout.addWidget(self.hint)
+        self.status = QLabel('')
+        self.status.setStyleSheet('color:#58665f; font-size:13px;')
+        self.status.setWordWrap(True)
+        layout.addWidget(self.status)
+        self.model_state, self.arm_state = '', ''
+        bottom = QHBoxLayout()
+        bottom.addWidget(QLabel('在此窗口按住字母键移动机械臂'))
+        self.restart = QPushButton('复位 (R)')
+        self.restart.setFocusPolicy(Qt.NoFocus)
+        self.restart.clicked.connect(self.reset)
+        bottom.addWidget(self.restart)
+        layout.addLayout(bottom)
+        self.keys = node.create_publisher(String, '/worldsim/key', 10)
+        self.resets = node.create_publisher(Empty, '/worldsim/reset', 1)
+        self.select = node.create_publisher(String, '/worldsim/select_task', 1)
+        latched = QoSProfile(depth=1, durability=DurabilityPolicy.TRANSIENT_LOCAL)
+        node.create_subscription(String, '/worldsim/active_task', self.ready, latched)
+        node.create_subscription(String, '/worldsim/state', self.on_state, latched)
+        node.create_subscription(String, '/worldsim/teleop_state', self.on_teleop, 1)
+        if node.declare_parameter('image', True).value:
+            node.create_subscription(Image, '/worldsim/image', self.show_image, 1)
+        else:
+            self.picture.hide()
+        self.enable(False)
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.poll)
+        self.timer.start(15)
+        self.repeat = QTimer(self)
+        self.repeat.timeout.connect(self.send_held)
+        self.repeat.start(100)
+
+    def poll(self):
+        if rclpy.ok():
+            rclpy.spin_once(self.node, timeout_sec=0)
+        else:
+            self.close()
+
+    def enable(self, enabled):
+        for button in self.buttons.values():
+            button.setEnabled(enabled)
+        self.restart.setEnabled(enabled)
+
+    def choose(self, task):
+        if task == self.task:
+            self.buttons[task].setChecked(True)
+            return
+        self.held.clear()
+        self.pending = task
+        self.hint.setText('正在加载' + TASKS[task][0] + '…')
+        self.picture.setText('正在切换任务')
+        self.enable(False)
+        self.select.publish(String(data=task))
+
+    def ready(self, msg):
+        if msg.data not in TASKS:
+            return
+        self.pending = None
+        self.task = msg.data
+        for task,button in self.buttons.items():
+            button.setChecked(task == self.task)
+        self.hint.setText(TASKS[self.task][1])
+        self.enable(True)
+
+    def on_state(self, msg):
+        try:
+            self.model_state = '模型: ' + json.loads(msg.data).get('state', '')
+        except ValueError:
+            return
+        self.status.setText(self.model_state + '\n' + self.arm_state)
+
+    def on_teleop(self, msg):
+        try:
+            arms = json.loads(msg.data)
+        except ValueError:
+            return
+        self.arm_state = 'MoveIt 末端控制: ' + '   '.join(f'{k}: {v}' for k, v in sorted(arms.items()))
+        self.status.setText(self.model_state + '\n' + self.arm_state)
+
+    def show_image(self, msg):
+        if self.pending or msg.encoding != 'rgb8':
+            return
+        image = QImage(bytes(msg.data), msg.width, msg.height, msg.step, QImage.Format_RGB888)
+        self.picture.setPixmap(QPixmap.fromImage(image).scaled(self.picture.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
+
+    def reset(self):
+        self.held.clear()
+        self.resets.publish(Empty())
+
+    def keyPressEvent(self, event):
+        key = event.text().lower()
+        if self.pending or not self.task or event.isAutoRepeat():
+            return
+        if key == 'r':
+            self.reset()
+        elif key and key in TASKS[self.task][2]:
+            self.keys.publish(String(data=key))
+            if key != 'h':
+                self.held.add(key)
+        else:
+            super().keyPressEvent(event)
+
+    def keyReleaseEvent(self, event):
+        if not event.isAutoRepeat():
+            self.held.discard(event.text().lower())
+
+    def changeEvent(self, event):
+        if event.type() == QEvent.ActivationChange and not self.isActiveWindow():
+            self.held.clear()
+        super().changeEvent(event)
+
+    def send_held(self):
+        for key in self.held:
+            self.keys.publish(String(data=key))
+
+def main():
+    rclpy.init()
+    node = Node('worldsim_controls')
+    app = QApplication(sys.argv[:1])
+    panel = Controls(node)
+    panel.show()
+    signal.signal(signal.SIGINT, lambda *_: app.quit())
+    try:
+        app.exec_()
+    finally:
+        node.destroy_node()
+        rclpy.try_shutdown()
+
+if __name__ == '__main__':
+    main()

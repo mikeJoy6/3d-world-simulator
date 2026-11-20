@@ -1,0 +1,81 @@
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 1.3.15 (/opt/ros/humble/share/ament_cmake/cmake)
+-- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/austin/worldsim_ws/build/worldsim_description
+-- Install configuration: ""
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/config
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/config/ompl_planning.yaml
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/config/kinematics.yaml
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/config/joint_limits.yaml
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/config/calibration.yaml
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/config/moveit_controllers.yaml
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/config/worldsim_aloha.srdf
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/launch
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/launch/moveit.launch.py
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm0_wrist_link.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm1_shoulder_link_collision.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm0_lower_forearm_link_collision.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm1_upper_forearm_link.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm0_left_finger_link.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm1_base_link_collision.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm1_right_finger_link.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm1_wrist_link.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm0_upper_forearm_link_collision.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm1_upper_arm_link_collision.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm0_left_finger_link_collision.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm0_upper_forearm_link.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm1_left_finger_link.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm0_shoulder_link_collision.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm1_lower_forearm_link.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm0_gripper_link.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm1_upper_forearm_link_collision.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm1_shoulder_link.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm1_left_finger_link_collision.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm1_wrist_link_collision.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm1_right_finger_link_collision.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm0_right_finger_link_collision.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm1_gripper_link.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm1_lower_forearm_link_collision.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm0_base_link_collision.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm1_base_link.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm0_lower_forearm_link.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm0_gripper_link_collision.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm1_gripper_link_collision.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm1_upper_arm_link.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm0_right_finger_link.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm0_base_link.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm0_shoulder_link.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm0_upper_arm_link.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm0_upper_arm_link_collision.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/meshes/arm0_wrist_link_collision.stl
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/urdf
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/urdf/worldsim_aloha.urdf
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/ament_index/resource_index/package_run_dependencies/worldsim_description
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/ament_index/resource_index/parent_prefix_path/worldsim_description
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/environment/ament_prefix_path.sh
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/environment/ament_prefix_path.dsv
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/environment/path.sh
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/environment/path.dsv
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/local_setup.bash
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/local_setup.sh
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/local_setup.zsh
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/local_setup.dsv
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/package.dsv
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/ament_index/resource_index/packages/worldsim_description
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/cmake/worldsim_descriptionConfig.cmake
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/cmake/worldsim_descriptionConfig-version.cmake
+-- Installing: /home/austin/worldsim_ws/install/worldsim_description/share/worldsim_description/package.xml

@@ -1,116 +1,216 @@
-> **This fork adds a ROS 2 / MoveIt 2 integration** (URDF robot extracted from the release, scene-only particles,
-> end-effector control through MoveIt planning groups, simulation and real-robot backends): see [`ros2/`](ros2/README.md).
+# WorldSim ROS 2 — drive a learned 3D world model with a real robot stack
 
-# Hybrid Particle-Voxel Dynamics for Multimodal 3D World Simulation
+[中文说明](README.zh-CN.md)
 
-[Jimmy Wang](https://jwang771.github.io)<sup>1,2</sup>, [Yifan Chou](https://yifan-chou.github.io)<sup>3</sup>, [Kaifeng Zhang](https://kywind.github.io)<sup>1</sup>, [Yixuan Wang](https://www.yixuanwang.me/)<sup>4</sup>, [Binghao Huang](https://binghao-huang.github.io)<sup>1</sup>, [Tao Yu](https://www.linkedin.com/in/taoyumit)<sup>5</sup>, [Saleh Nabi](https://www.linkedin.com/in/saleh-nabi-877ba573)<sup>5</sup>, [Yunzhu Li](https://yunzhuli.github.io)<sup>1</sup>
+A ROS 2 Humble / MoveIt 2 integration of **[Hybrid Particle-Voxel Dynamics for Multimodal 3D World Simulation](https://github.com/jwang771/3d-world-simulator)**
+(Wang et al., 2026). The learned world model runs locally on one consumer GPU. The robot is a proper URDF
+**extracted from the released checkpoints**, end effectors are commanded through **MoveIt planning groups**,
+and the same nodes serve **simulation and a real robot**.
 
-<sup>1</sup>Columbia University, <sup>2</sup>UC Berkeley, <sup>3</sup>University of Michigan, <sup>4</sup>NVIDIA, <sup>5</sup>Analog Devices
+![Pushing the T block through MoveIt; the world model predicts the scene](docs/media/hero.gif)
 
-[Project website](https://jwang771.github.io/3dworldsimulator/) | [arXiv](https://arxiv.org/abs/2611.04492) | [Data and checkpoints](https://huggingface.co/datasets/jwang771/3d-world-simulator) | [Interactive demo](https://jwang771.github.io/3dworldsimulator/#demo)
+> The world model and its weights are the work of the original authors. This repository only adds the robotics
+> integration around them; it does not include their code or weights (see [Setup](#setup)).
 
-![Autoencoder](docs/images/method_ae.jpg)
-![Dynamics](docs/images/method_dyn.jpg)
+## What this adds to the upstream release
 
-## Install
+| | Upstream interactive demo | This repository |
+|---|---|---|
+| Robot | Arms drawn as fitted Gaussian splats (`ArmRig`) | **URDF** with meshes, extracted from `arms/rig.pt` (`tools/extract_robot.py`) |
+| Scene output | All Gaussians, arms included | **Scene only**: robot Gaussians removed (incl. gripper pads labelled as object); held objects kept |
+| Control | Keyboard / web gizmo moving a commanded pose | **MoveIt 2 planning groups** `arm0` / `arm1` (+ grippers): keyboard, pose topics, RViz MotionPlanning |
+| Action ↔ robot | Action is a 14-d pose vector | Action is a **TF lookup** on the URDF (`armN_action_frame → armN_action_tcp`), calibrated from the release |
+| Interface | Web page | ROS 2 topics: `PointCloud2`, `Image` + `CameraInfo`, `JointState`, `FollowJointTrajectory` |
+| Robots | — | Kinematic simulation of the training robot, and a **real-robot backend** (example config: dual-arm humanoid) |
 
-```bash
-conda env create -f environment.yml
-conda activate 3dws
+## How it works
+
+```mermaid
+flowchart LR
+    K[Keyboard / panel] --> T
+    P["/worldsim/armN/target_pose<br/>/worldsim/action"] --> T
+    R[RViz MotionPlanning] --> MG
+    T[ee_teleop<br/>targets in action space] -->|"Cartesian path (real)<br/>state check (sim)"| MG[MoveIt move_group<br/>groups arm0 / arm1]
+    MG --> C{FollowJointTrajectory}
+    T -->|trajectory| C
+    C -->|sim| S[sim_robot<br/>extracted ViperX pair]
+    C -->|real| H[robot's own controllers]
+    S --> J["/joint_states → robot_state_publisher → TF"]
+    H --> J
+    J --> W[world_model<br/>TF pose → 14-d action → model step]
+    W --> O["/worldsim/points (scene only)<br/>/worldsim/image"]
 ```
 
-Data and checkpoints are in one Hugging Face repository,
-[`jwang771/3d-world-simulator`](https://huggingface.co/datasets/jwang771/3d-world-simulator).
+The model is only stepped when the measured action changes (plus a short run-on, and a settle period after a gripper
+change), exactly like the upstream demo, so a still robot means a still scene.
 
-## Interactive demo
+## Results
 
-```bash
-hf download jwang771/3d-world-simulator --repo-type dataset --include "checkpoints/*" --local-dir hub
-python -m demo.server_fast --release hub/checkpoints
-```
+![From fitted splats to a URDF](docs/media/urdf_extraction.png)
 
-Open `http://localhost:8000`. Pick a task (cloth, box, T pushing, part assembly) and drive the arms with the gizmo or
-the keyboard. It runs at 35 to 50 FPS; the first load compiles for about a minute.
+**Robot extraction.** The kinematic chain comes from the joint table the authors exported from their URDF
+(`arms/rig.pt → fk`). Each link's mesh is built from that link's fitted Gaussians (voxelised and meshed with marching
+cubes), and its collision geometry is the mesh's convex hull. The meshes are coarser than the vendor meshes, but they are
+derived only from the release.
 
-![Interactive demo](docs/images/demo.jpg)
+**The action is a commanded pose, not a link pose.** Running the release's own arm head (`ArmRig.joint_net`) on every
+frame of the four seed episodes gives the joints the model believes in. A least-squares fit then finds, per arm, a fixed
+`action_frame` (relative to `base_link`) and `action_tcp` (relative to `gripper_link`). Findings:
 
-## Download data
+- The action leads the arm by about **2 model steps (0.2 s)**. It is the teleoperation command, and the arm lags behind it.
+- Orientation is **roll-pitch-yaw about fixed x, y, z axes**, the ROS convention. Intrinsic XYZ or zyx orders leave a 1.2–2.1× larger rotation residual.
+- Residuals after the fit, over 1,180 frames per arm, are about as large as the joint head's own error:
 
-Processed data of a task (`cloth`, `box`, `pusht` or `assembly`), ready for training:
+| arm | position, median | position, p90 | rotation, median |
+|---|---|---|---|
+| arm 0 | 7.1 mm | 12.5 mm | 3.0° |
+| arm 1 | 9.8 mm | 18.3 mm | 2.6° |
 
-```bash
-hf download jwang771/3d-world-simulator --repo-type dataset --include "data/processed/assembly/*" --local-dir hub
-mkdir -p data && ln -s $PWD/hub/data/processed/assembly data/assembly
-python scripts/link_splits.py data/assembly
-```
+With these two links in the URDF, any joint source yields a model action with a single TF lookup.
 
-## Autoencoder training
+![Scene-only output](docs/media/scene_only.png)
 
-```bash
-python scripts/train_vae.py --task assembly --data-root data --out-dir runs/assembly/vae
-```
+**Scene only.** Dropping the robot class is not enough: the gripper pads are labelled *object*, and some arm parts
+are labelled *table*. The release's arm rig locates the model's own arms. Within a dilated voxel mask around them,
+table-class Gaussians off the table surface and red/orange pad Gaussians are removed. Object Gaussians held in the
+gripper (cloth, plug) are kept.
 
-`--task` is one of `cloth`, `box`, `pusht`, `assembly`; each task has a specific set of parameters in
-`tasks.py`, including voxel grid dimensions, workspace bounds, whether it has tactile sensing, among other information.
-We also include the ability to place object-specific weights during training, which improves the simulation fidelity.
+![MoveIt MotionPlanning drives the world model](docs/media/moveit_drag.gif)
 
-`--recipe minimal` trains without any extra weighting. The default, `--recipe full`, adds the object weights, the robot
-and gripper voxel labels and the tactile targets, and is what the released models were trained with.
+![Cloth: gripper through the MoveIt gripper group](docs/media/cloth_gripper.gif)
 
-## Dynamics training
+**The ViperX wrist singularity.** Lowering an arm through the cloth workspace takes `wrist_angle` through 0, where
+`forearm_roll` and `wrist_rotate` share an axis. MoveIt's KDL and LMA plugins drift there into a 180° wrist flip
+(both joints spin by about π in opposite directions, so a 10 cm move takes 2 s and the TCP leaves the line when
+preempted); pick_ik with a displacement cost stalls. Streaming end-effector control of the simulated arms therefore
+solves each 3 mm Cartesian step with the core's damped IK (adaptive damping near the singularity, position weighted
+above orientation, orientation held to 1.1°, inside the fitted frame's 3°), and MoveIt's planning group checks the
+result for collisions before it is sent. The wrist then crosses zero as the recorded arms did. RViz goal markers and
+OMPL planning still use MoveIt's IK. A real robot uses MoveIt's Cartesian path.
 
-Dynamics model training is much faster after precomputing latents. To precompute the latents, run the following:
+**Motion the model was trained on.** The data moves about one keyboard step (3.5–4 mm) per 0.1 s step. Absolute
+targets are therefore approached one step per tick, as the upstream gizmo does. Faster robot motion (the MoveIt panel,
+a real arm) is fed to the model in up to 4 interpolated sub-steps per tick.
 
-```bash
-python scripts/export_latents.py --vae-ckpt runs/assembly/vae/checkpoints/latest.pth \
-  --packed-dir data/assembly/train --out-dir runs/assembly/latents/train
-python scripts/export_latents.py --vae-ckpt runs/assembly/vae/checkpoints/latest.pth \
-  --packed-dir data/assembly/val --out-dir runs/assembly/latents/val
-```
+**Performance** (RTX 4070 Laptop, 8 GB, reference inference): dynamics step 20–70 ms, scene decode with robot removal
+≈ 100 ms, 640×400 render ≈ 5 ms (after warm-up). Default rate 5 model steps/s; peak GPU memory ≈ 2.6 GB. `fast:=true` enables the
+upstream sparse decoder and compiled dynamics.
 
-Then train the dynamics model:
+## Setup
 
-```bash
-L=runs/assembly/latents
-python scripts/train_dynamics.py --latent-dir $L/train --val-latent-dir $L/val --out-dir runs/assembly/dynamics \
-  --n-history 8 --ar-schedule 1 2 3 4 5 6 7 8 9 10 --ar-schedule-epochs 50 100 150 200 250 300 350 400 450 500
-```
-
-The model predicts the next latent from the last `--n-history` latents and actions. We find that having a schedule
-`ar-schedule` and training using predicted latents in the history dramatically improve the performance of the model.
-
-## Visualization
-
-Viser viewers for the downloaded data. They read the processed episodes directly, and each has an episode slider and a
-frame slider:
+Tested on Ubuntu 22.04, ROS 2 Humble, MoveIt 2.5, Python 3.10, PyTorch with CUDA 13.0, RTX 4070 Laptop.
 
 ```bash
-./pw camera assembly     # fused point cloud, camera poses and workspace box (port 8099)
-./pw voxels assembly     # the same with the occupied voxels at a chosen grid resolution (port 8097)
-./pw cams   assembly     # the same with every camera image, wrist cameras included (port 8095)
+# ROS dependencies
+sudo apt install ros-humble-moveit ros-humble-ros2-controllers python3-pyqt5
+
+# This repository and the upstream model code (not redistributed here), pinned to the tested commit
+git clone https://github.com/<TODO-your-username>/<TODO-repo-name>.git worldsim_ws && cd worldsim_ws
+git clone https://github.com/jwang771/3d-world-simulator.git src/worldsim_model/upstream
+git -C src/worldsim_model/upstream checkout fc80d4ba2b38441a4d9cfd4f28144846038ee2a5
+touch src/worldsim_model/upstream/COLCON_IGNORE
+
+# Python inference environment: .venv on top of an existing Python 3.10 + PyTorch (CUDA 13.0) install
+WORLDSIM_TORCH_PYTHON=/path/to/python-with-torch tools/setup_runtime.sh
+
+# Released weights (~860 MB, checksum-verified) into assets/checkpoints
+python3 tools/fetch_weights.py
+
+# Build
+source /opt/ros/humble/setup.bash
+colcon build --base-paths src --symlink-install
 ```
 
-Each prints its address; open `http://localhost:<port>`.
+The extracted robot (`src/worldsim_description`) is committed, so you do not need to run `tools/extract_robot.py`
+unless you want to regenerate it.
 
-## Deform360
-
-The Deform360 dynamics model draws the gripper into the voxel grid instead of using a plain action vector, and trains
-only on frames where the gripper is closed (the object does not move while it is open, so a model trained on all frames
-learns to copy the last frame). See the docstrings in [deform360/](deform360/).
+## Simulation
 
 ```bash
-python -m deform360.prepare --latents latents/train --raw <deform360 recordings> --out segments/train
-python -m deform360.prepare --latents latents/val   --raw <deform360 recordings> --out segments/val
-python -m deform360.train --latent-dir segments/train --val-latent-dir segments/val --out-dir runs/deform360/dynamics
+./run_sim.sh                      # T pushing; task:=pusht|cloth|box|assembly
+./run_sim.sh task:=cloth          # cloth folding, gripper on H
+./run_sim.sh mode:=replay         # the recorded actions, looped; the arms follow by IK
+./run_sim.sh model_arms:=true     # also show where the model itself believes the arms are
 ```
 
-## More
+- **Control panel**: hold the task's keys to move an end effector, use the task buttons to switch tasks, `R` to reset
+  and `H` for the gripper. Key hints come from each task's `task.json`.
+- **RViz → MotionPlanning**: group `arm0`/`arm1`, drag the goal marker, then Plan & Execute. For the grippers use
+  `arm0_gripper`/`arm1_gripper` with the `open`/`closed` states.
+- **Topics**:
+  - `/worldsim/armN/target_pose` (`PoseStamped` in any TF frame)
+  - `/worldsim/action` (14-d absolute target)
+  - `/worldsim/key`, `/worldsim/reset`, `/worldsim/select_task`
 
-- [docs/guide.md](docs/guide.md): the full walkthrough, including processing your own recordings, rollout videos, demo controls, the kinematic robot arms and the Python API
-- [docs/data.md](docs/data.md), [docs/data_format.md](docs/data_format.md): what is on the Hub and the episode format
-- [processing/README.md](processing/README.md): raw recordings to training files
+![RViz layout](docs/media/rviz_layout.png)
 
-## Citation
+The still figures are rendered from the model by `tools/render_readme_figures.py`. Pass `rviz_config:=<file>` to use
+your own RViz layout.
+
+## Real robot
+
+The world model can follow a real robot's end effectors. Here the robot is driven by its own controllers,
+teleoperation, or this repository's keyboard through **the robot's MoveIt planning groups**. The mapping is
+**relative**: at start, reset or task switch, the robot's current end-effector poses are tied to the seed frame's
+actions. From then on the model sees the robot's motion since that moment, rotated into each model arm's frame
+(`axes`) and scaled (`scale`).
+
+```bash
+# with the robot's own stack running (robot_state_publisher, move_group, arm trajectory controllers)
+ros2 launch worldsim_g2 real.launch.py task:=pusht                       # follow; keyboard plans only
+ros2 launch worldsim_g2 real.launch.py task:=pusht enable_motion:=true   # keyboard moves the real arms (10 % speed)
+```
+
+The example configuration (`src/worldsim_g2/config/g2.yaml`) targets a dual-arm humanoid with groups
+`left_arm_group` / `right_arm_group`. To use another robot, change the frames, group names and controller names there.
+
+> **Status:** the real-robot path has only been tested against simulated TF frames and without a robot-side
+> move_group. The model was trained on two ViperX arms, and its predictions under another embodiment are **not
+> validated**.
+
+<!-- TODO(media, optional): real_robot.gif. Real arm moving next to the predicted scene. Only if you are allowed to publish robot footage. -->
+
+## Topics
+
+| Topic | Type | |
+|---|---|---|
+| `/worldsim/points` | `PointCloud2` | predicted scene particles without the robot, frame `worldsim_world` |
+| `/worldsim/image`, `/worldsim/camera_info` | `Image`, `CameraInfo` | the scene rendered over the scanned room |
+| `/worldsim/applied_action` | `Float32MultiArray` | the 14-d action the model received |
+| `/worldsim/seed_action` | `Float32MultiArray` (latched) | the seed frame's action after a reset; `layout.dim[0].label` = task |
+| `/worldsim/state`, `/worldsim/teleop_state` | `String` (JSON) | model state; per-arm MoveIt control state |
+| `/worldsim/action`, `/worldsim/armN/target_pose` | `Float32MultiArray`, `PoseStamped` | end-effector targets |
+| `/worldsim/key`, `/worldsim/reset`, `/worldsim/select_task` | `String`, `Empty`, `String` | keyboard, reset, task |
+| `/worldsim/gripper_command` | `Float32MultiArray` | gripper commands (task units) |
+
+The 14-d action is, per arm in its action frame: x, y, z (m), roll, pitch, yaw (rad, fixed axes), gripper command. Arm 0 comes first.
+
+## Repository layout
+
+```
+src/worldsim_core         core algorithms, no ROS: engine (model, scene-only decode, render), robot (calibration,
+                          FK/IK, URDF/SRDF), mapping (pose -> action, step gate), teleop, tasks; offline tests
+src/worldsim_description  extracted URDF, meshes, calibration, MoveIt config (groups arm0, arm1, armN_gripper)
+src/worldsim_model        nodes shared by sim and real: world_model, ee_teleop
+src/worldsim_sim          sim backend sim_robot, launch, RViz layout, control panel, terminal keyboard
+src/worldsim_g2           real-robot launch and example config, observation republisher
+tools/                    extract_robot.py, setup_runtime.sh, fetch_weights.py, wspython
+```
+
+Offline tests (no ROS graph, no GPU): `python3 -m pytest src/worldsim_core/test -q`
+
+## Limitations
+
+- The meshes are reconstructed from splats and are coarser than vendor meshes.
+- The training data holds no usable map from gripper command to finger opening, so the simulated finger opening is for display only.
+- A thin table-layer shadow under the T-pushing grippers remains in the scene output. It is part of the predicted table.
+- Arm mounts use the median over tasks: within 3 mm for every task, except part assembly's locked arm (≈ 2 cm).
+- Cross-embodiment prediction (real robot ≠ ViperX) is unvalidated.
+
+## Acknowledgements and citation
+
+All credit for the world model, the arm rig, the datasets and the weights goes to the original authors. If you use this
+work, please cite their paper:
 
 ```bibtex
 @article{wang2026hybrid,
@@ -120,3 +220,9 @@ python -m deform360.train --latent-dir segments/train --val-latent-dir segments/
   year    = {2026}
 }
 ```
+
+## License
+
+<!-- TODO: choose a license for the code in this repository (e.g. MIT or Apache-2.0) and add a LICENSE file. -->
+The code in this repository: TODO. The upstream code and the released weights are **not** covered by this license;
+they remain under their authors' terms (at the time of writing the upstream repository has no license file).

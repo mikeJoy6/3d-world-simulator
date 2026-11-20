@@ -1,0 +1,161 @@
+<!doctype html><html><head><meta charset=utf-8><title>3D World Simulator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;height:100%;overflow:hidden}
+body,button{font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+body{background:#f9f9f9;color:#333;user-select:none;-webkit-user-select:none}
+#vid{position:fixed;cursor:grab;background:#fff;-webkit-user-drag:none}
+#bar{position:fixed;left:0;top:0;right:0;height:48px;display:flex;align-items:center;gap:12px;padding:0 16px;background:#f9f9f9;border-bottom:1px solid #e2e2e2;z-index:30;font-size:14px;white-space:nowrap}
+#bar .brand{font-weight:600}#bar .brand span{font-weight:400;color:#8a8a8a}.grow{flex:1}
+.btn{font-size:13px;padding:5px 11px;border:1px solid #cfcfcf;border-radius:5px;background:#fff;color:#1a1a1a;cursor:pointer}.btn:hover{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.rail{position:fixed;top:48px;bottom:0;width:250px;padding:18px 16px 16px;display:flex;flex-direction:column;background:#f9f9f9;z-index:20;overflow:hidden;box-sizing:content-box}
+#railL{left:0;border-right:1px solid #e2e2e2}#railR{right:0;border-left:1px solid #e2e2e2;overflow-y:auto}.sp{flex:1}
+.lab{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8a8a8a;margin:0 0 8px}.grp{margin-bottom:24px}
+.tile{display:flex;align-items:center;gap:12px;width:100%;padding:6px;margin:0 0 8px;border:1px solid #e4e4e4;border-radius:8px;background:#fff;font-size:14px;text-align:left;cursor:pointer;color:#1a1a1a}
+.tile img{width:76px;height:50px;object-fit:cover;border-radius:5px;display:block;flex:none}.tile span{min-width:0}
+.tile:hover{border-color:#9a9a9a}.tile.on{border-color:#1a1a1a;box-shadow:inset 0 0 0 1px #1a1a1a}
+.opt{display:block;width:100%;text-align:left;font-size:14px;padding:9px 12px;margin:0 0 8px;border:1px solid #e4e4e4;border-radius:8px;background:#fff;cursor:pointer;color:#1a1a1a}
+.opt:hover{border-color:#9a9a9a}.opt.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.cl{display:flex;flex-direction:column;gap:8px;align-items:center}.kr{display:flex;gap:8px;margin:0}
+.key{width:58px;height:58px;line-height:54px;text-align:center;border:1.5px solid #9a9a9a;border-radius:10px;background:#fff;color:#222;font-size:22px;font-weight:600;box-sizing:content-box}
+.key.on{background:#1e90ff;border-color:#1e90ff;color:#fff}.key.off{border-color:#e3e3e3;border-style:dashed;color:#c8c8c8}
+.gw{width:190px;height:46px;margin:0 auto 22px;display:flex;align-items:center;justify-content:center;gap:12px;border:1.5px solid #9a9a9a;border-radius:10px;background:#fff;color:#222;font-size:13px;cursor:pointer;padding:0}
+.gw b{font-size:21px;font-weight:600}.gw span{color:#555}.gw:hover{background:#f3f2ef}
+.gw.off{border-color:#e3e3e3;border-style:dashed;color:#c8c8c8;cursor:default}.gw.off span{color:#c8c8c8}.gw.off:hover{background:#fff}
+#hud{position:fixed;top:48px;left:250px;right:250px;height:40px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600;color:#444;margin:0;font-variant-numeric:tabular-nums}
+#msg{display:none;position:fixed;left:50%;top:45%;transform:translate(-50%,-50%);flex-direction:column;align-items:center;gap:14px;font-size:17px;line-height:1.3;color:#777;z-index:40;text-align:center;white-space:nowrap}
+#load{width:260px;height:4px;background:#e4e4e4;border-radius:2px;overflow:hidden}#loadf{display:block;height:100%;width:0;background:#1a1a1a}
+@media (max-width:1100px){.rail{width:200px}.tile img{display:none}#hud{left:200px;right:200px}}
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.tk{padding:0;border:1px solid #e4e4e4;border-radius:8px;background:#fff;cursor:pointer;color:#1a1a1a;font-size:13px;overflow:hidden;text-align:center;min-width:0}
+.tk img{display:block;width:100%;aspect-ratio:3/2;object-fit:cover}.tk span{display:block;padding:4px 2px 5px}.tk:hover{border-color:#9a9a9a}.tk.on{border-color:#1a1a1a;box-shadow:inset 0 0 0 1px #1a1a1a;font-weight:600}
+body.gzmode .cl{opacity:.3}.row2{display:flex;gap:8px}.row2 .opt{margin:0;text-align:center;padding:7px 4px;font-size:13px}
+</style></head><body>
+<div id=bar><span class=brand>3D World Simulator <span id=title></span></span><span class=grow></span><button class=btn id=reset>Reset (R)</button></div>
+<div class=rail id=railL></div><div class=rail id=railR></div>
+<div id=hud><span id=fps>0.0 FPS</span> &nbsp;·&nbsp; <span id=timer>00:00</span></div>
+<img id=vid draggable=false>
+<div id=msg><div id=msgt>Loading the model</div><div id=load><i id=loadf></i></div></div>
+<script>
+const INFO=%INFO%,TASK=INFO.task,g=id=>document.getElementById(id),el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!==undefined)e.innerHTML=h;return e;};
+g('title').textContent=INFO.title+' demo';document.title='3D World Simulator: '+INFO.title;
+// ---- transport: JPEG frames down, keys / controls up, over one WebSocket ----
+const vid=g('vid'),msg=g('msg'),loadf=g('loadf');let ws=null,lastURL=null,ended=false,stat={fps:0,elapsed:0},gotFrame=false,msgTimer=null;
+vid.src='/thumb/'+TASK+'/splats.jpg';   // the task's thumbnail stands in for the stream until the first frame
+// the bar fills over 30 s, about the time a model takes to load; it only indicates, the first frame hides it
+function loading(){clearTimeout(msgTimer);msg.style.display='none';msgTimer=setTimeout(()=>{if(gotFrame)return;msg.style.display='flex';g('msgt').textContent='Loading the model';g('load').style.display='';loadf.style.transition='none';loadf.style.width='0';void loadf.offsetWidth;loadf.style.transition='width 30s linear';loadf.style.width='100%';},2500);}
+function note(t){clearTimeout(msgTimer);msg.style.display='flex';g('msgt').textContent=t;g('load').style.display='none';}
+function connect(){loading();ws=new WebSocket((location.protocol=='https:'?'wss://':'ws://')+location.host+'/ws?task='+TASK);ws.binaryType='arraybuffer';
+ ws.onopen=()=>setTimeout(ctl,0);
+ ws.onmessage=e=>{if(typeof e.data==='string'){const j=JSON.parse(e.data);if(j.gz!==undefined){GZ=j.gz;gzDraw();return;}if(j.timeout){ended=true;note('Time is up. Reload the page to play again.');return;}stat=j;return;}
+  if(!gotFrame){gotFrame=true;clearTimeout(msgTimer);msg.style.display='none';}const u=URL.createObjectURL(new Blob([e.data],{type:'image/jpeg'}));const old=lastURL;lastURL=u;vid.src=u;if(old)setTimeout(()=>URL.revokeObjectURL(old),1000);};
+ ws.onclose=()=>{if(ended)return;gotFrame=false;loading();setTimeout(connect,1500);};}
+const post=(u,o)=>{if(ws&&ws.readyState===1)ws.send(JSON.stringify({u:u,d:o}));};
+// ---- keyboard: held movement keys, tapped gripper / reset keys ----
+const MOVE=new Set(INFO.move),TAP=new Set(INFO.tap);let held=new Set(),gzOn=true;
+const sync=()=>document.querySelectorAll('.key').forEach(e=>e.classList.toggle('on',held.has(e.dataset.k)));
+// gizmo mode = no keyboard: only key-down is blocked (a key held while switching still lifts); R resets in both modes
+document.addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(k!='r'&&gzOn&&(MOVE.has(k)||TAP.has(k)))return;
+ if(MOVE.has(k)){e.preventDefault();if(!held.has(k)){held.add(k);post('/keys',{held:[...held]});sync();}}
+ else if(TAP.has(k)&&!e.repeat){e.preventDefault();post('/keys',{tap:k});}});
+document.addEventListener('keyup',e=>{const k=e.key.toLowerCase();if(held.delete(k)){post('/keys',{held:[...held]});sync();}});
+window.addEventListener('blur',()=>{held.clear();post('/keys',{held:[]});sync();});
+g('reset').onclick=()=>post('/control',{reset:true});
+// ---- left rail: what to show; right rail: task, control mode; a 3x2 key cluster per arm under each ----
+const L=g('railL'),R=g('railR'),lab=t=>el('div','lab',t);let show='splats';
+const showBox=el('div','grp');showBox.append(lab('Show'));const sb={};
+for(const [k,n] of [['splats','Rendered scene'],['particles','3D particles'],['multi','Multi-view'],['voxels','Upsampled voxels'],['latents','Latent representation'],['raw','Raw model output']]){const b=el('button','tile','<img src="/thumb/'+TASK+'/'+k+'.jpg" alt=""><span>'+n+'</span>');b.onclick=()=>{show=k;ctl();paint();};sb[k]=b;showBox.append(b);}
+const ctlBox=el('div','grp');ctlBox.append(lab('Control'));const cb={},cr=el('div','row2');for(const [k,n] of [['keys','Keyboard'],['gizmo','Gizmo']]){const b=el('button','opt',n);b.onclick=()=>{gzOn=(k=='gizmo');gzDraw();paint();};cb[k]=b;cr.append(b);}ctlBox.append(cr);
+function paint(){for(const k in sb)sb[k].classList.toggle('on',k==show);cb.gizmo.classList.toggle('on',gzOn);cb.keys.classList.toggle('on',!gzOn);document.body.classList.toggle('gzmode',gzOn);}
+// multi-view = the dataset cameras; raw = the model's Gaussians alone on white; voxels / latents / particles = that display in the free view
+const ctl=()=>post('/control',{view:show=='multi'?'cams':(show=='raw'?'orbit_white':'orbit'),display:(show=='voxels'||show=='latents'||show=='particles')?show:'splats',bg:show!='raw',arms:show!='raw'});
+const anyKey=rows=>rows.flat().some(k=>MOVE.has(k));function cluster(rows){const c=el('div','cl');if(!anyKey(rows))return c;for(const r of rows){const kr=el('div','kr');for(const k of r){const d=el('div','key'+(MOVE.has(k)?'':' off'),k.toUpperCase());d.dataset.k=k;kr.append(d);}c.append(kr);}return c;}
+const gripL=el('button','gw off','<b>G</b><span>gripper</span>'),gripR=el('button','gw off','<b>H</b><span>gripper</span>');
+if(!TAP.has('g'))gripL.style.display='none';if(!TAP.has('h'))gripR.style.display='none';
+L.append(showBox,el('div','sp'),gripL,cluster([['q','w','e'],['a','s','d']]));
+const tkBox=el('div','grp');tkBox.append(lab('Task'));const tg=el('div','tgrid');
+for(const t of INFO.tasks){const b=el('button','tk'+(t.key==TASK?' on':''),'<img src="/thumb/'+t.key+'/splats.jpg" alt=""><span>'+t.name+'</span>');b.onclick=()=>{if(t.key==TASK)return;try{sessionStorage.setItem('3dws_nav','1');}catch(e){}location.href='?task='+t.key;};tg.append(b);}tkBox.append(tg);
+R.append(tkBox,ctlBox,el('div','sp'),gripR,cluster([['u','i','o'],['j','k','l']]));
+function grips(){const gs=(GZ&&GZ.grips)||[];for(const [b,arm,def] of [[gripL,1,'G'],[gripR,0,'H']]){const q=gs.find(x=>x.arm==arm);
+ if(!q){if(b.dataset.sig){b.dataset.sig='';b.className='gw off';b.innerHTML='<b>'+def+'</b><span>gripper</span>';b.onclick=null;}continue;}
+ const t=(q.target=='close'?'close':'open')+' gripper',sig=q.key+t;if(b.dataset.sig!=sig){b.dataset.sig=sig;b.className='gw';b.innerHTML='<b>'+q.key.toUpperCase()+'</b><span>'+t+'</span>';b.onclick=()=>post('/keys',{tap:q.key});}}}
+setInterval(grips,300);
+// the stream fits the area between the rails, under the FPS row, keeping its aspect (the gizmo overlay follows its rect)
+function fit(){const rw=L.offsetWidth,aw=innerWidth-2*rw-24,ah=innerHeight-48-40-16,ar=(vid.naturalWidth||3)/(vid.naturalHeight||2);let w=aw,h=w/ar;if(h>ah){h=ah;w=h*ar;}w=Math.round(w);h=Math.round(h);
+ vid.style.width=w+'px';vid.style.height=h+'px';vid.style.left=Math.round(rw+12+(aw-w)/2)+'px';vid.style.top='90px';}
+vid.addEventListener('load',fit);window.addEventListener('resize',fit);setInterval(fit,700);fit();
+setInterval(()=>{g('fps').textContent=stat.fps.toFixed(1)+' FPS';const s=Math.floor(stat.elapsed);g('timer').textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');},500);
+// ---- camera: drag = orbit, wheel = zoom, shift-drag = pan ----
+let az=INFO.view.az,elv=INFO.view.el,rad=INFO.view.radius,drag=null;
+// ---- gizmo (viser / drei PivotControls style, translation only): per gripper an arrow per keyed action axis (red x, green y, blue z of
+// that arm's base frame) and a centre dot. A drag sets goals the server reaches in keyboard steps (one step per tick, like holding the
+// keys). Geometry from the server, in streamed-image pixels.
+const gzc=document.createElement('canvas');gzc.style.cssText='position:fixed;pointer-events:none;z-index:5';document.body.appendChild(gzc);
+let GZ=null,gzDrag=null,gzHover=null,gzT=0;const GZC=['#ff2060','#20df80','#2080ff'],GZH='#ffff40';
+function gzS(){return GZ&&GZ.w?vid.getBoundingClientRect().width/GZ.w:1;}
+const gzSame=(a,b)=>a&&b&&a.arm==b.arm&&a.kind==b.kind&&String(a.axes)==String(b.axes)&&Math.abs(a.ax0-b.ax0)<1&&Math.abs(a.ay0-b.ay0)<1;
+function gzDraw(){const r=vid.getBoundingClientRect();gzc.style.left=r.left+'px';gzc.style.top=r.top+'px';if(gzc.width!=Math.round(r.width)||gzc.height!=Math.round(r.height)){gzc.width=Math.round(r.width);gzc.height=Math.round(r.height);}
+ const c=gzc.getContext('2d');c.clearRect(0,0,gzc.width,gzc.height);if(!GZ||!gzOn)return;const s=gzS(),act=gzDrag||gzHover;
+ const same=(h,a)=>a&&a.arm==h.arm&&Math.abs(a.ax0-h.x0)<1&&Math.abs(a.ay0-h.y0)<1;
+ for(const h of GZ.handles){const on=act&&act.kind=='a'&&same(h,act)&&act.axes[0]==h.axis;const x0=h.x0*s,y0=h.y0*s,x1=h.x1*s,y1=h.y1*s,L=Math.hypot(x1-x0,y1-y0),ux=(x1-x0)/L,uy=(y1-y0)/L;
+  const hl=Math.min(18,Math.max(9,0.24*L)),hw=on?7.5:6,col=on?GZH:GZC[h.axis];
+  c.strokeStyle=col;c.lineWidth=on?5:4;c.lineCap='round';c.beginPath();c.moveTo(x0+ux*9,y0+uy*9);c.lineTo(x1-ux*hl,y1-uy*hl);c.stroke();
+  c.fillStyle=col;c.beginPath();c.moveTo(x1,y1);c.lineTo(x1-ux*hl-uy*hw,y1-uy*hl+ux*hw);c.lineTo(x1-ux*hl+uy*hw,y1-uy*hl-ux*hw);c.closePath();c.fill();
+  c.strokeStyle='rgba(0,0,0,.35)';c.lineWidth=1;c.stroke();}
+ for(const a of GZ.anchors){const on=act&&act.kind=='f'&&same({arm:a.arm,x0:a.x,y0:a.y},act);c.fillStyle=on?GZH:'#fff';c.strokeStyle='#333';c.lineWidth=1.5;c.beginPath();c.arc(a.x*s,a.y*s,on?13:11,0,7);c.fill();c.stroke();}
+ if(gzDrag){const d=gzDrag,tx=d.ax0+d.dpx[0],ty=d.ay0+d.dpx[1];c.strokeStyle=GZH;c.lineWidth=2.5;c.beginPath();c.arc(tx*s,ty*s,11,0,7);c.stroke();}}
+function gzHit(e){if(!GZ||!gzOn)return null;const r=vid.getBoundingClientRect(),s=gzS(),x=(e.clientX-r.left)/s,y=(e.clientY-r.top)/s,tol=11/s;
+ for(const a of GZ.anchors)if(Math.hypot(x-a.x,y-a.y)<14/s)return {arm:a.arm,kind:'f',axes:a.axes,M:a.axes.map(k=>a.m[k]),ax0:a.x,ay0:a.y,x,y};   // centre dot first
+ let best=null,bd=1e9;
+ for(const h of GZ.handles){const vx=h.x1-h.x0,vy=h.y1-h.y0,L2=vx*vx+vy*vy;let t=((x-h.x0)*vx+(y-h.y0)*vy)/L2;t=Math.max(0.15,Math.min(1.1,t));const d=Math.hypot(x-(h.x0+t*vx),y-(h.y0+t*vy));
+  if(d<tol&&d<bd){bd=d;best=h;}}
+ if(best)return {arm:best.arm,kind:'a',axes:[best.axis],J:[[best.jx,best.jy]],ax0:best.x0,ay0:best.y0,x,y};   // an arrow = that axis only
+ return null;}
+function gzSolve(d,dx,dy){if(d.kind=='f'){d.dpx=[dx,dy];return d.M.map(m=>m[0]*dx+m[1]*dy);}
+ const j=d.J[0],t=(dx*j[0]+dy*j[1])/(j[0]*j[0]+j[1]*j[1]);d.dpx=[t*j[0],t*j[1]];return [t];}
+function gzSend(end){const d=gzDrag;post('/control',{gizmo:{arm:d.arm,axes:d.axes,delta:d.dm,start:!!d.first,end:!!end}});d.first=false;gzT=performance.now();}
+window.addEventListener('resize',gzDraw);
+vid.addEventListener('pointerdown',e=>{e.preventDefault();window.focus();
+ const hit=e.button==0&&!e.shiftKey?gzHit(e):null;
+ if(hit){gzDrag=Object.assign(hit,{sx:hit.x,sy:hit.y,dm:hit.axes.map(()=>0),dpx:[0,0],first:true});gzSend(false);vid.setPointerCapture(e.pointerId);gzDraw();return;}
+ drag={x:e.clientX,y:e.clientY,pan:e.shiftKey||e.button==2};vid.setPointerCapture(e.pointerId);});
+vid.addEventListener('pointerup',()=>{drag=null;if(gzDrag){gzSend(true);gzDrag=null;gzDraw();}});vid.addEventListener('contextmenu',e=>e.preventDefault());vid.addEventListener('dragstart',e=>e.preventDefault());document.addEventListener('selectstart',e=>e.preventDefault());
+vid.addEventListener('pointermove',e=>{
+ if(gzDrag){const r=vid.getBoundingClientRect(),s=gzS(),x=(e.clientX-r.left)/s,y=(e.clientY-r.top)/s,d=gzDrag;d.dm=gzSolve(d,x-d.sx,y-d.sy);
+  if(performance.now()-gzT>40)gzSend(false);gzDraw();return;}
+ if(!drag){const nh=gzHit(e);if(!!nh!=!!gzHover||(nh&&!gzSame(nh,gzHover))){gzHover=nh;vid.style.cursor=nh?'pointer':'grab';gzDraw();}return;}const dx=e.clientX-drag.x,dy=e.clientY-drag.y;drag.x=e.clientX;drag.y=e.clientY;
+ if(drag.pan){post('/control',{dpan:[dx/600,dy/600]});}else{az-=dx*0.4;elv=Math.max(-85,Math.min(85,elv+dy*0.4));post('/control',{az,el:elv});}});
+vid.addEventListener('wheel',e=>{e.preventDefault();rad=Math.max(0.15,Math.min(5,rad*(1+e.deltaY*0.001)));post('/control',{rad});},{passive:false});
+// ---- gesture hints that replay until the visitor does them: (1) a curved sweep across the scene = drag to orbit, until a background
+// drag; (2) an arrow sweeping out of the left arm's white centre = drag the gizmo, until a gizmo drag. Only when cloth first loads.
+const NS='http://www.w3.org/2000/svg',hint=document.createElementNS(NS,'svg');hint.style.cssText='position:fixed;pointer-events:none;z-index:6;opacity:0;transition:opacity .5s';document.body.appendChild(hint);
+const hEl=(t,a,p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);(p||hint).append(e);return e;};
+let hintStage=0,hintBuilt=0,hintG=null,hintMoved=0;   // 0 orbit, 1 gizmo, 2 done; kept across task switches (the tiles set 3dws_nav), a fresh load or reload starts over
+try{if(sessionStorage.getItem('3dws_nav')=='1'){sessionStorage.removeItem('3dws_nav');hintStage=+(sessionStorage.getItem('3dws_hint')||0);}else sessionStorage.removeItem('3dws_hint');}catch(e){}
+if(TASK!=='cloth')hintStage=2;
+const hintSave=()=>{try{sessionStorage.setItem('3dws_hint',hintStage);}catch(e){}};
+function sweep(g,d,L,label,lx,ly,id){   // a path revealed from its start while a cursor dot travels it (1.6 s), rests 0.6 s, repeats
+ hEl('path',{d,fill:'none',stroke:'#fff',"stroke-width":12,"stroke-linecap":'round',opacity:.85},g);
+ const p=hEl('path',{id,d,fill:'none',stroke:'#1a1a1a',"stroke-width":6,"stroke-linecap":'round',"stroke-dasharray":L,"stroke-dashoffset":L},g);
+ hEl('animate',{attributeName:'stroke-dashoffset',values:`${L};0;0`,keyTimes:'0;0.73;1',dur:'2.2s',repeatCount:'indefinite'},p);
+ const head=hEl('path',{d:'M4,0 L-24,-14 L-24,14 Z',fill:'#1a1a1a',stroke:'#fff',"stroke-width":2.5},g);
+ const am=hEl('animateMotion',{dur:'2.2s',repeatCount:'indefinite',rotate:'auto',keyPoints:'0;1;1',keyTimes:'0;0.73;1',calcMode:'linear'},head);hEl('mpath',{href:'#'+p.id},am);
+ const dot=hEl('g',{},g);hEl('circle',{r:15,fill:'#fff',stroke:'#1a1a1a',"stroke-width":2.5},dot);hEl('circle',{r:5,fill:'#1a1a1a'},dot);
+ const ad=hEl('animateMotion',{dur:'2.2s',repeatCount:'indefinite',keyPoints:'0;1;1',keyTimes:'0;0.73;1',calcMode:'linear'},dot);hEl('mpath',{href:'#'+p.id},ad);
+ const w=label.length*9.2+30,h=40;hEl('rect',{x:lx-w/2+2,y:ly+3,width:w,height:h,rx:8,fill:'rgba(0,0,0,.18)'},g);hEl('rect',{x:lx-w/2,y:ly,width:w,height:h,rx:8,fill:'#fff',stroke:'#1a1a1a',"stroke-width":1.3},g);
+ const t=hEl('text',{x:lx,y:ly+h/2+6,"text-anchor":'middle',"font-family":'Inter,system-ui,sans-serif',"font-size":'18',"font-weight":'600',fill:'#1a1a1a'},g);t.textContent=label;}
+function hintBuild(){while(hint.firstChild)hint.removeChild(hint.firstChild);hintG=null;const W=+hint.getAttribute('width'),H=+hint.getAttribute('height');if(!W)return;
+ if(hintStage==0){const g=hEl('g',{});const x0=W*0.82,x1=W*0.18,y=H*0.42,d=`M${x0},${y} Q${W/2},${y-H*0.22} ${x1},${y}`;const tmp=hEl('path',{d,fill:'none'},g);const L=tmp.getTotalLength();tmp.remove();
+  sweep(g,d,L,'Drag to orbit the view',W/2,y+30,'hp0');}
+ if(hintStage==1){hintG=hEl('g',{});const dx=120,dy=105;const d=`M0,0 L${dx},${dy}`;sweep(hintG,d,Math.hypot(dx,dy),'Drag the white dot to move the arm',dx+10,dy+26,'hp1');}
+ hintBuilt=hintStage+1;}
+function hintLayout(){const r=vid.getBoundingClientRect();hint.style.left=r.left+'px';hint.style.top=r.top+'px';const W=Math.round(r.width),H=Math.round(r.height);
+ if(+hint.getAttribute('width')!=W||+hint.getAttribute('height')!=H){hint.setAttribute('width',W);hint.setAttribute('height',H);hintBuilt=0;}
+ if(hintBuilt!=hintStage+1)hintBuild();
+ if(hintStage==1&&hintG){const s=gzS(),an=(GZ&&GZ.anchors)||[];if(!an.length||!gzOn){hintG.style.display='none';return;}hintG.style.display='';const a=an.reduce((p,q)=>q.x<p.x?q:p);const ax=a.x*s,ay=a.y*s;   // the leftmost dot
+  const flip=ax>W*0.6;hintG.setAttribute('transform',`translate(${ax},${ay})${flip?' scale(-1,1)':''}`);if(flip)hintG.querySelector('text').setAttribute('transform','scale(-1,1)');}}
+function hintNext(){hintStage++;hintSave();hintMoved=0;if(hintStage>=2){hint.style.opacity=0;return;}hintBuild();}
+setInterval(()=>{if(hintStage>=2)return;if(!(vid.naturalWidth>0&&vid.src.startsWith('blob:')&&GZ))return;hintLayout();hint.style.opacity=1;},150);
+window.addEventListener('pointermove',e=>{if(hintStage>=2)return;if(hintStage==0&&drag&&!drag.pan&&!gzDrag){hintMoved+=Math.abs(e.movementX);if(hintMoved>40)hintNext();}
+ else if(hintStage==1&&gzDrag){hintMoved+=Math.hypot(e.movementX,e.movementY);if(hintMoved>25)hintNext();}});
+paint();connect();
+</script></body></html>

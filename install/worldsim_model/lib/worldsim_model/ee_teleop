@@ -1,0 +1,453 @@
+#!/usr/bin/python3
+"""End-effector control through MoveIt planning groups, for the simulated arms and for a real robot.
+
+Targets live in the world model's action space (worldsim_core.teleop: the dataset's keyboard step, workspace and
+orientation rule). Each tick, an arm whose target moved gets a straight-line path from its current state, which goes to
+the arm's FollowJointTrajectory controller. Planning and execution per arm run independently, so both arms move at once.
+
+  armN.ik = moveit  MoveIt's Cartesian path service (/compute_cartesian_path, group armN.group, link armN.tip,
+                    collision-checked). Used for a real robot with its own MoveIt config.
+  armN.ik = core    the damped IK of worldsim_core along the line (the simulated ViperX: MoveIt's IK plugins flip the
+                    wrist or stall at its wrist singularity, see worldsim_core.robot.cartesian_joint_path), and MoveIt's
+                    planning group checks the end state (/check_state_validity) before it is sent.
+
+Inputs
+  /worldsim/key             std_msgs/String   held task keys (repeat while held) and gripper toggles
+  /worldsim/action          Float32MultiArray 14-d absolute target in action space (both arms + grippers)
+  /worldsim/armN/target_pose PoseStamped       absolute tcp target of arm N in any TF frame
+  /worldsim/seed_action     Float32MultiArray (latched, from world_model) reset: targets back to the seed
+  /worldsim/active_task     String            (latched) task switch: keys, workspace, orientation rule
+Outputs
+  /worldsim/gripper_command Float32MultiArray the two gripper commands (task units), every tick
+  /worldsim/teleop_state    String            JSON status per arm
+
+A real robot runs this with ``enable_motion: false`` until its mapping has been checked (plans are made and logged,
+nothing moves).
+"""
+import json
+import threading
+import time
+
+import numpy as np
+import rclpy
+from control_msgs.action import FollowJointTrajectory
+from geometry_msgs.msg import Pose, PoseStamped
+from moveit_msgs.msg import RobotState
+from moveit_msgs.srv import GetCartesianPath, GetStateValidity
+from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
+from rclpy.action import ActionClient
+from rclpy.callback_groups import ReentrantCallbackGroup
+from rclpy.duration import Duration
+from rclpy.executors import MultiThreadedExecutor
+from rclpy.node import Node
+from rclpy.qos import DurabilityPolicy, QoSProfile
+from rclpy.time import Time
+from sensor_msgs.msg import JointState
+from std_msgs.msg import Float32MultiArray, String
+from tf2_ros import Buffer, TransformException, TransformListener
+
+from worldsim_core.mapping import PoseMapping, pose6_from_transform, pose_distance
+from worldsim_core.tasks import TASKS, TaskConfig
+from worldsim_core.teleop import CartesianTeleop
+from worldsim_core.transforms import make_transform, matrix_to_quat, quat_to_matrix
+
+LATCHED = QoSProfile(depth=1, durability=DurabilityPolicy.TRANSIENT_LOCAL)
+KEY_HOLD = 0.3  # s a key counts as held after its last message (the panel repeats every 0.1 s)
+
+
+def to_matrix(p):
+    return make_transform([p.position.x, p.position.y, p.position.z],
+                          R=quat_to_matrix([p.orientation.x, p.orientation.y, p.orientation.z, p.orientation.w]))
+
+
+def to_pose(T):
+    q = matrix_to_quat(T[:3, :3])
+    p = Pose()
+    p.position.x, p.position.y, p.position.z = (float(v) for v in T[:3, 3])
+    p.orientation.x, p.orientation.y, p.orientation.z, p.orientation.w = (float(v) for v in q)
+    return p
+
+
+class Arm:
+    def __init__(self, node, i):
+        P = node.declare_parameter
+        self.i = i
+        self.group = P(f"arm{i}.group", f"arm{i}").value
+        self.tip = P(f"arm{i}.tip", f"arm{i}_action_tcp").value
+        self.frame = P(f"arm{i}.frame", f"arm{i}_action_frame").value
+        self.request_frame = P(f"arm{i}.request_frame", "").value  # header of the MoveIt request; '' = transform to planning_frame
+        self.enabled = bool(P(f"arm{i}.enabled", True).value)
+        controller = P(f"arm{i}.controller", f"/arm{i}_controller/follow_joint_trajectory").value
+        axes = np.reshape(list(P(f"arm{i}.axes", [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]).value), (3, 3))
+        off = make_transform(list(P(f"arm{i}.offset_xyz", [0.0, 0.0, 0.0]).value), list(P(f"arm{i}.offset_rpy", [0.0, 0.0, 0.0]).value))
+        self.map = PoseMapping(P(f"arm{i}.mapping", "absolute").value, axes, float(P(f"arm{i}.scale", 1.0).value), off)
+        self.client = ActionClient(node, FollowJointTrajectory, controller, callback_group=node.cb)
+        self.ik = P(f"arm{i}.ik", "moveit").value
+        if self.ik not in ("moveit", "core"):
+            raise ValueError(f"arm{i}.ik must be moveit or core")
+        if self.ik == "core":  # the extracted ViperX arm i (its URDF joints are arm<i>_<joint>)
+            from worldsim_core.robot import ArmKinematics, RobotCalibration
+            calib = RobotCalibration()
+            self.kin = ArmKinematics(calib, i)
+            self.joint_names = calib.joint_names(i, with_fingers=False)
+        self.planning = False
+        self.goal = None  # active goal handle
+        self.goal_done = True
+        self.sent = None  # 6-d action-space target of the last plan
+        self.pending = False  # target changed by an absolute command since the last plan
+        self.last_cmd = 0.0
+        self.status = "idle"
+
+
+class EeTeleop(Node):
+    def __init__(self):
+        super().__init__("ee_teleop")
+        self.cb = ReentrantCallbackGroup()
+        P = self.declare_parameter
+        self.rate = float(P("rate", 5.0).value)
+        self.planning_frame = P("planning_frame", "worldsim_world").value
+        self.clamp = bool(P("clamp_workspace", True).value)
+        self.enable_motion = bool(P("enable_motion", True).value)
+        self.vel = float(P("velocity_scaling", 0.8).value)
+        self.acc = float(P("acceleration_scaling", 0.8).value)
+        self.max_step = float(P("max_cartesian_step", 0.003).value)
+        self.jump = float(P("jump_threshold", 0.0).value)  # relative (MoveIt), 0 = off
+        # absolute joint jumps between consecutive Cartesian waypoints: an IK branch flip would sweep the tcp off the line
+        self.revolute_jump = float(P("revolute_jump_threshold", 0.25).value)
+        self.prismatic_jump = float(P("prismatic_jump_threshold", 0.02).value)
+        # a Cartesian path that reaches less than this share of the step counts as blocked: the target is taken back to
+        # where the arm is. A longer partial path is executed and the target kept; the next tick continues from there.
+        self.blocked_fraction = float(P("blocked_fraction", 0.2).value)
+        self.collisions = bool(P("avoid_collisions", True).value)
+        self.resync_m = float(P("resync_distance", 0.008).value)
+        task = P("task", "pusht").value
+        # finger joints that show the gripper (simulated arms): when something else moved them (the MoveIt gripper
+        # group), the gripper command continues from there. Empty for a robot without gripper joints.
+        self.gripper_joints = list(P("gripper_joints", [""]).value)
+        self.gripper_joints = [j for j in self.gripper_joints if j]
+        self.finger = None
+        self.joint_msg = None
+        self.arms = [Arm(self, 0), Arm(self, 1)]
+        self.tf = Buffer()
+        self.tf_listener = TransformListener(self.tf, self, spin_thread=True)
+        self.cartesian = self.create_client(GetCartesianPath, "/compute_cartesian_path", callback_group=self.cb)
+        self.validity = self.create_client(GetStateValidity, "/check_state_validity", callback_group=self.cb)
+        self.lock = threading.RLock()
+        self.teleop = CartesianTeleop(TaskConfig(task), self.clamp)
+        self.keys = {}  # key -> last time seen
+        self.taps = []
+        self.pub_grip = self.create_publisher(Float32MultiArray, "/worldsim/gripper_command", 1)
+        self.pub_state = self.create_publisher(String, "/worldsim/teleop_state", 1)
+        self.create_subscription(String, "/worldsim/key", self.on_key, 20, callback_group=self.cb)
+        self.create_subscription(Float32MultiArray, "/worldsim/action", self.on_action, 1, callback_group=self.cb)
+        if self.gripper_joints:
+            from worldsim_core.robot import RobotCalibration
+            self.calib = RobotCalibration()
+        if self.gripper_joints or any(a.ik == "core" for a in self.arms):
+            self.create_subscription(JointState, "/joint_states", self.on_joints, 10, callback_group=self.cb)
+        self.create_subscription(Float32MultiArray, "/worldsim/seed_action", self.on_seed, LATCHED, callback_group=self.cb)
+        self.create_subscription(String, "/worldsim/active_task", self.on_task, LATCHED, callback_group=self.cb)
+        for arm in self.arms:
+            self.create_subscription(PoseStamped, f"/worldsim/arm{arm.i}/target_pose", lambda m, a=arm: self.on_pose(a, m), 1,
+                                     callback_group=self.cb)
+        self.create_timer(1.0 / self.rate, self.tick, callback_group=self.cb)
+        self.get_logger().info(f"EE control via MoveIt groups {[a.group for a in self.arms]}"
+                               + ("" if self.enable_motion else " (enable_motion=false: plans only, nothing moves)"))
+
+    # -- inputs -----------------------------------------------------------------------------------------------------------
+    def on_task(self, msg):
+        """Task settings come with the seed (on_seed); this only covers a task announced without one."""
+        if msg.data in TASKS and msg.data != self.teleop.task.name and not self.teleop.ready:
+            with self.lock:
+                self.teleop = CartesianTeleop(TaskConfig(msg.data), self.clamp)
+
+    def on_seed(self, msg):
+        if len(msg.data) != 14:
+            return
+        task = msg.layout.dim[0].label if msg.layout.dim else ""
+        with self.lock:
+            if task in TASKS and task != self.teleop.task.name:
+                self.teleop = CartesianTeleop(TaskConfig(task), self.clamp)
+            self.teleop.reseed(np.array(msg.data, np.float64))
+            self.keys.clear()
+            for arm in self.arms:
+                arm.map.reset()
+                arm.sent = None
+                arm.pending = False
+                if arm.goal is not None and not arm.goal_done:
+                    arm.goal.cancel_goal_async()
+
+    def on_key(self, msg):
+        key = msg.data.lower()
+        if len(key) != 1:
+            return
+        with self.lock:
+            if key in self.teleop.task.gripper_keys():
+                self.taps.append(key)
+            else:
+                self.keys[key] = time.time()
+
+    def on_joints(self, msg):
+        self.joint_msg = msg
+        pos = dict(zip(msg.name, msg.position))
+        if self.gripper_joints and all(j in pos for j in self.gripper_joints):
+            self.finger = [self.calib.finger_command(pos[j]) for j in self.gripper_joints]
+
+    def sync_gripper(self):
+        """Adopt a gripper state set by something else (the MoveIt gripper group) while the command is not ramping."""
+        g = self.teleop.task.gripper
+        if self.finger is None or not g:
+            return
+        for i in range(2):
+            if self.teleop.grip_target[i] is None or str(i) in g.get("fixed", {}):
+                continue
+            want = self.teleop.task.gripper_target_value(i, self.teleop.grip_target[i])
+            ramping = abs(self.teleop.grip[i] - want) > 1e-9
+            measured = float(np.clip(self.finger[i], min(g["close"][i], g["open"]), max(g["close"][i], g["open"])))
+            if not ramping and abs(measured - self.teleop.grip[i]) > 0.02:
+                self.teleop.grip[i] = measured
+                self.teleop.grip_target[i] = "open" if abs(measured - g["open"]) <= abs(measured - g["close"][i]) else "close"
+
+    def on_action(self, msg):
+        a = np.array(msg.data, np.float64)
+        if a.shape != (14,) or not np.isfinite(a).all() or not self.teleop.ready:
+            return
+        with self.lock:
+            for arm in self.arms:
+                self.teleop.set_target(arm.i, a[arm.i * 7: arm.i * 7 + 3], a[arm.i * 7 + 3: arm.i * 7 + 6])
+            self.teleop.grip = [float(a[6]), float(a[13])]
+
+    def on_pose(self, arm, msg):
+        if not self.teleop.ready:
+            return
+        try:
+            T = self.lookup(arm.frame, msg.header.frame_id or arm.frame) @ to_matrix(msg.pose)
+        except TransformException as e:
+            self.get_logger().warn(f"target pose for arm{arm.i}: {e}")
+            return
+        if not self.engage(arm):
+            return
+        pose6 = pose6_from_transform(arm.map.to_action(T), reference_rpy=self.teleop.rpy[arm.i])
+        with self.lock:
+            self.teleop.set_target(arm.i, pose6[:3], pose6[3:])
+
+    # -- helpers ----------------------------------------------------------------------------------------------------------
+    def lookup(self, target, source):
+        t = self.tf.lookup_transform(target, source, Time())
+        q, p = t.transform.rotation, t.transform.translation
+        return make_transform([p.x, p.y, p.z], R=quat_to_matrix([q.x, q.y, q.z, q.w]))
+
+    def measured(self, arm):
+        """The arm's current tcp as a robot pose (4x4 in arm.frame), or None."""
+        try:
+            return self.lookup(arm.frame, arm.tip)
+        except TransformException:
+            return None
+
+    def engage(self, arm):
+        """A relative mapping ties the current robot pose to the seed on its first use after a reset."""
+        if arm.map.engaged:
+            return True
+        T = self.measured(arm)
+        if T is None:
+            return False
+        seed = np.concatenate(self.teleop.target(arm.i))
+        arm.map.engage(T, seed)
+        return True
+
+    # -- the loop ---------------------------------------------------------------------------------------------------------
+    def tick(self):
+        if not self.teleop.ready:
+            return
+        now = time.time()
+        with self.lock:
+            held = {k for k, t in self.keys.items() if now - t < KEY_HOLD}
+            self.keys = {k: t for k, t in self.keys.items() if k in held}
+            self.sync_gripper()
+            for key in self.taps:
+                self.teleop.toggle_gripper(key)
+            self.taps = []
+            idle = [arm for arm in self.arms if arm.goal_done and not arm.planning and self.teleop.goal[arm.i] is None
+                    and not any(self.teleop.task.keys.get(k, (-1,))[0] == arm.i for k in held)]
+            # an idle arm moved by something else (the MoveIt panel): its target becomes where it is
+            for arm in idle:
+                T = self.measured(arm)
+                if T is not None and self.engage(arm) and arm.sent is not None and now - arm.last_cmd > 1.0:
+                    pose6 = pose6_from_transform(arm.map.to_action(T), reference_rpy=self.teleop.rpy[arm.i])
+                    if pose_distance(pose6, arm.sent)[0] > self.resync_m:
+                        self.teleop.sync_pose(arm.i, pose6[:3], pose6[3:])
+                        arm.sent = pose6
+            moved, _ = self.teleop.tick(held)
+            self.pub_grip.publish(Float32MultiArray(data=[float(g) for g in self.teleop.grip]))
+            for arm in self.arms:
+                if arm.enabled and (arm.i in moved or arm.pending) and not arm.planning:
+                    self.plan(arm)
+        self.pub_state.publish(String(data=json.dumps({f"arm{a.i}": a.status for a in self.arms})))
+
+    def plan(self, arm):
+        if not self.engage(arm):
+            arm.status = f"no TF {arm.frame} -> {arm.tip}"
+            return
+        pos, rpy = self.teleop.target(arm.i)
+        target6 = np.concatenate([pos, rpy])
+        if arm.sent is not None and np.abs(target6 - arm.sent).max() < 1e-7:
+            arm.status = "at the workspace limit" if self.clamp else "idle"
+            return
+        T = arm.map.to_robot(make_transform(pos, rpy))  # tcp target in arm.frame
+        if arm.ik == "core":
+            return self.plan_core(arm, target6, T)
+        header_frame = arm.request_frame or self.planning_frame
+        if not arm.request_frame:
+            try:
+                T = self.lookup(self.planning_frame, arm.frame) @ T
+            except TransformException as e:
+                arm.status = f"no TF {self.planning_frame} -> {arm.frame}"
+                return
+        if not self.cartesian.service_is_ready():
+            arm.status = "waiting for MoveIt /compute_cartesian_path"
+            return
+        req = GetCartesianPath.Request()
+        req.header.frame_id = header_frame
+        req.start_state.is_diff = True
+        req.group_name = arm.group
+        req.link_name = arm.tip
+        req.waypoints = [to_pose(T)]
+        req.max_step = self.max_step
+        req.jump_threshold = self.jump
+        req.revolute_jump_threshold = self.revolute_jump
+        req.prismatic_jump_threshold = self.prismatic_jump
+        req.avoid_collisions = self.collisions
+        req.max_velocity_scaling_factor = self.vel
+        req.max_acceleration_scaling_factor = self.acc
+        arm.planning, arm.pending = True, False
+        future = self.cartesian.call_async(req)
+        future.add_done_callback(lambda f, a=arm, t=target6: self.planned(a, t, f))
+
+    def planned(self, arm, target6, future):
+        arm.planning = False
+        try:
+            res = future.result()
+        except Exception as e:  # service went away
+            arm.status = f"planning failed: {e}"
+            return
+        traj = res.solution.joint_trajectory
+        if res.error_code.val == 1 and res.fraction >= 0.999 and len(traj.points) < 2:
+            arm.sent, arm.status = target6, "idle"  # already there
+            return
+        if res.error_code.val != 1 or res.fraction <= 0.0 or len(traj.points) < 2:
+            arm.status = f"no Cartesian path (error {res.error_code.val}, {res.fraction:.0%})"
+            self.hold(arm)
+            return
+        if res.fraction < self.blocked_fraction:
+            arm.status = f"blocked after {res.fraction:.0%} of the step (collision, joint limit or singularity)"
+            self.hold(arm)
+        elif res.fraction < 0.999:
+            arm.status = f"partial step ({res.fraction:.0%}), continuing"
+        else:
+            arm.status = "moving" if self.enable_motion else f"planned {len(traj.points)} points (motion disabled)"
+        self.send(arm, target6, traj)
+
+    def send(self, arm, target6, traj):
+        arm.sent = target6
+        arm.last_cmd = time.time()
+        if not self.enable_motion:
+            return
+        if not arm.client.server_is_ready():
+            arm.status = "controller not available"
+            return
+        traj.header.stamp.sec = traj.header.stamp.nanosec = 0  # start now
+        goal = FollowJointTrajectory.Goal(trajectory=traj)
+        arm.goal_done = False
+        arm.client.send_goal_async(goal).add_done_callback(lambda f, a=arm: self.accepted(a, f))
+
+    def plan_core(self, arm, target6, T):
+        """armN.ik = core: the line in joint space from worldsim_core, the end state checked by the MoveIt group."""
+        from worldsim_core.robot import cartesian_joint_path
+        msg = self.joint_msg
+        if msg is None:
+            arm.status = "waiting for /joint_states"
+            return
+        pos = dict(zip(msg.name, msg.position))
+        if not all(j in pos for j in arm.joint_names):
+            arm.status = "joint states lack " + arm.group
+            return
+        q0 = np.array([pos[j] for j in arm.joint_names])
+        qs, fraction = cartesian_joint_path(arm.kin, q0, T, max_step=self.max_step, max_joint_step=self.revolute_jump)
+        if fraction < self.blocked_fraction or not qs:
+            arm.status = f"blocked after {fraction:.0%} of the step (joint limit or singularity)"
+            self.hold(arm)
+            return
+        traj = JointTrajectory(joint_names=list(arm.joint_names))
+        t, prev = 0.0, q0
+        vmax = np.pi * self.vel  # rad/s, the ViperX joint velocity limit scaled
+        for q in qs:
+            t += max(np.abs(q - prev).max() / vmax, 0.01)
+            prev = q
+            traj.points.append(JointTrajectoryPoint(positions=[float(v) for v in q], time_from_start=Duration(seconds=t).to_msg()))
+        status = "moving" if fraction >= 0.999 else f"partial step ({fraction:.0%}), continuing"
+        if not self.collisions or not self.validity.service_is_ready():
+            arm.status = status if self.collisions is False else "moving (MoveIt /check_state_validity not available)"
+            return self.send(arm, target6, traj)
+        state = RobotState()
+        state.joint_state.name = list(msg.name)
+        end = dict(zip(arm.joint_names, qs[-1]))
+        state.joint_state.position = [float(end.get(n, p)) for n, p in zip(msg.name, msg.position)]
+        req = GetStateValidity.Request(robot_state=state, group_name=arm.group)
+        arm.planning = True
+        self.validity.call_async(req).add_done_callback(lambda f, a=arm: self.checked(a, target6, traj, status, f))
+
+    def checked(self, arm, target6, traj, status, future):
+        arm.planning = False
+        try:
+            res = future.result()
+        except Exception as e:
+            arm.status = f"state check failed: {e}"
+            return
+        if not res.valid:
+            pairs = sorted({f"{c.contact_body_1}/{c.contact_body_2}" for c in res.contacts})[:2]
+            arm.status = "blocked: collision " + (", ".join(pairs) if pairs else "(constraint)")
+            self.hold(arm)
+            return
+        arm.status = status if self.enable_motion else f"planned {len(traj.points)} points (motion disabled)"
+        self.send(arm, target6, traj)
+
+    def accepted(self, arm, future):
+        handle = future.result()
+        if not handle.accepted:
+            arm.goal_done = True
+            arm.status = "controller rejected the trajectory"
+            return
+        arm.goal = handle
+        handle.get_result_async().add_done_callback(lambda f, a=arm, h=handle: self.finished(a, h))
+
+    def finished(self, arm, handle):
+        if arm.goal is handle:
+            arm.goal_done = True
+            if arm.status == "moving":
+                arm.status = "idle"
+
+    def hold(self, arm):
+        """The target could not be reached: take it back to where the arm is, so held keys do not wind it up."""
+        T = self.measured(arm)
+        if T is not None and arm.map.engaged:
+            pose6 = pose6_from_transform(arm.map.to_action(T), reference_rpy=self.teleop.rpy[arm.i])
+            with self.lock:
+                self.teleop.sync_pose(arm.i, pose6[:3], self.teleop.rpy[arm.i])
+
+
+def main():
+    rclpy.init()
+    node = EeTeleop()
+    executor = MultiThreadedExecutor(num_threads=4)
+    executor.add_node(node)
+    try:
+        executor.spin()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        node.destroy_node()
+        rclpy.try_shutdown()
+
+
+if __name__ == "__main__":
+    main()

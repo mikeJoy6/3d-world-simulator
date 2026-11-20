@@ -1,0 +1,46 @@
+[0.008s] Invoking command in '/home/austin/worldsim_ws/build/worldsim_sim': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake /home/austin/worldsim_ws/src/worldsim_sim -DCMAKE_INSTALL_PREFIX=/home/austin/worldsim_ws/install/worldsim_sim
+[0.051s] -- The C compiler identification is GNU 11.4.0
+[0.092s] -- The CXX compiler identification is GNU 11.4.0
+[0.097s] -- Detecting C compiler ABI info
+[0.148s] -- Detecting C compiler ABI info - done
+[0.152s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.152s] -- Detecting C compile features
+[0.152s] -- Detecting C compile features - done
+[0.154s] -- Detecting CXX compiler ABI info
+[0.212s] -- Detecting CXX compiler ABI info - done
+[0.217s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.217s] -- Detecting CXX compile features
+[0.217s] -- Detecting CXX compile features - done
+[0.219s] -- Found ament_cmake: 1.3.15 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.314s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[0.409s] -- Configuring done
+[0.410s] -- Generating done
+[0.411s] -- Build files have been written to: /home/austin/worldsim_ws/build/worldsim_sim
+[0.415s] Invoked command in '/home/austin/worldsim_ws/build/worldsim_sim' returned '0': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake /home/austin/worldsim_ws/src/worldsim_sim -DCMAKE_INSTALL_PREFIX=/home/austin/worldsim_ws/install/worldsim_sim
+[0.415s] Invoking command in '/home/austin/worldsim_ws/build/worldsim_sim': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake --build /home/austin/worldsim_ws/build/worldsim_sim -- -j28 -l28
+[0.441s] Invoked command in '/home/austin/worldsim_ws/build/worldsim_sim' returned '0': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake --build /home/austin/worldsim_ws/build/worldsim_sim -- -j28 -l28
+[0.443s] Invoking command in '/home/austin/worldsim_ws/build/worldsim_sim': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake --install /home/austin/worldsim_ws/build/worldsim_sim
+[0.447s] -- Install configuration: ""
+[0.447s] -- Installing: /home/austin/worldsim_ws/install/worldsim_sim/lib/worldsim_sim/sim_robot
+[0.447s] -- Installing: /home/austin/worldsim_ws/install/worldsim_sim/lib/worldsim_sim/keyboard
+[0.447s] -- Installing: /home/austin/worldsim_ws/install/worldsim_sim/lib/worldsim_sim/control_panel
+[0.448s] -- Installing: /home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/launch
+[0.448s] -- Installing: /home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/launch/sim.launch.py
+[0.448s] -- Installing: /home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/rviz
+[0.448s] -- Installing: /home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/rviz/worldsim.rviz
+[0.449s] -- Installing: /home/austin/worldsim_ws/install/worldsim_sim/share/ament_index/resource_index/package_run_dependencies/worldsim_sim
+[0.449s] -- Installing: /home/austin/worldsim_ws/install/worldsim_sim/share/ament_index/resource_index/parent_prefix_path/worldsim_sim
+[0.449s] -- Installing: /home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/environment/ament_prefix_path.sh
+[0.449s] -- Installing: /home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/environment/ament_prefix_path.dsv
+[0.449s] -- Installing: /home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/environment/path.sh
+[0.449s] -- Installing: /home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/environment/path.dsv
+[0.449s] -- Installing: /home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/local_setup.bash
+[0.449s] -- Installing: /home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/local_setup.sh
+[0.449s] -- Installing: /home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/local_setup.zsh
+[0.449s] -- Installing: /home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/local_setup.dsv
+[0.449s] -- Installing: /home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/package.dsv
+[0.449s] -- Installing: /home/austin/worldsim_ws/install/worldsim_sim/share/ament_index/resource_index/packages/worldsim_sim
+[0.449s] -- Installing: /home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/cmake/worldsim_simConfig.cmake
+[0.449s] -- Installing: /home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/cmake/worldsim_simConfig-version.cmake
+[0.449s] -- Installing: /home/austin/worldsim_ws/install/worldsim_sim/share/worldsim_sim/package.xml
+[0.450s] Invoked command in '/home/austin/worldsim_ws/build/worldsim_sim' returned '0': AMENT_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/home/austin/worldsim_ws/install/worldsim_core:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/austin/worldsim_ws/install/worldsim_model:/home/austin/worldsim_ws/install/worldsim_description:/opt/ros/humble PYTHONPATH=/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake --install /home/austin/worldsim_ws/build/worldsim_sim

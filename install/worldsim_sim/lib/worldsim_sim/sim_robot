@@ -1,0 +1,186 @@
+#!/usr/bin/python3
+"""The simulated ViperX pair: a kinematic robot that executes MoveIt's trajectories exactly and publishes /joint_states.
+
+  /armN_controller/follow_joint_trajectory          the 6 arm joints of planning group armN (MoveIt and ee_teleop)
+  /armN_gripper_controller/follow_joint_trajectory  the finger joint of group armN_gripper
+  /worldsim/seed_action, /worldsim/robot_command    14-d action: both arms jump there (IK of the extracted chain);
+                                                    reset to the seed frame, and the replay mode
+  /worldsim/gripper_command                         the two gripper commands; the fingers show them (display map)
+
+A new trajectory for a controller replaces the one it is executing (and starts from where the joints are), so a
+teleoperation stream of short trajectories moves the arm continuously.
+"""
+import threading
+import time
+
+import numpy as np
+import rclpy
+from control_msgs.action import FollowJointTrajectory
+from rclpy.action import ActionServer, CancelResponse, GoalResponse
+from rclpy.callback_groups import ReentrantCallbackGroup
+from rclpy.executors import MultiThreadedExecutor
+from rclpy.node import Node
+from rclpy.qos import DurabilityPolicy, QoSProfile
+from sensor_msgs.msg import JointState
+from std_msgs.msg import Float32MultiArray
+
+from worldsim_core.robot import ARM_JOINTS, FINGER_JOINT, MIMIC_FINGER_JOINT, ArmKinematics, RobotCalibration
+
+LATCHED = QoSProfile(depth=1, durability=DurabilityPolicy.TRANSIENT_LOCAL)
+
+
+class SimRobot(Node):
+    def __init__(self):
+        super().__init__("sim_robot")
+        self.cb = ReentrantCallbackGroup()
+        rate = float(self.declare_parameter("publish_rate", 100.0).value)
+        calib_path = self.declare_parameter("calibration", "").value
+        self.calib = RobotCalibration(calib_path or None)
+        self.kin = [ArmKinematics(self.calib, i) for i in range(2)]
+        self.lock = threading.Lock()
+        self.names = []
+        self.q = {}
+        for i in range(2):
+            rest = self.calib.arms[i].get("rest", [0.0] * 6)
+            for j, v in zip(ARM_JOINTS, rest):
+                self.q[f"arm{i}_{j}"] = float(v)
+            self.q[f"arm{i}_{FINGER_JOINT}"] = 0.02
+            self.names += [f"arm{i}_{j}" for j in ARM_JOINTS] + [f"arm{i}_{FINGER_JOINT}", f"arm{i}_{MIMIC_FINGER_JOINT}"]
+        self.active = {}  # controller -> goal id being executed
+        self.last_grip = [None, None]
+        self.generation = 0  # bumped by a jump (seed / replay): running trajectories stop
+        self.servers = []
+        for i in range(2):
+            self.add_controller(f"arm{i}_controller", [f"arm{i}_{j}" for j in ARM_JOINTS])
+            self.add_controller(f"arm{i}_gripper_controller", [f"arm{i}_{FINGER_JOINT}", f"arm{i}_{MIMIC_FINGER_JOINT}"])
+        self.pub = self.create_publisher(JointState, "/joint_states", 10)
+        self.create_subscription(Float32MultiArray, "/worldsim/seed_action", self.on_jump, LATCHED, callback_group=self.cb)
+        self.create_subscription(Float32MultiArray, "/worldsim/robot_command", self.on_jump, 1, callback_group=self.cb)
+        self.create_subscription(Float32MultiArray, "/worldsim/gripper_command", self.on_gripper, 1, callback_group=self.cb)
+        self.create_timer(1.0 / rate, self.publish, callback_group=self.cb)
+        self.get_logger().info("Simulated ViperX pair ready: arm0_controller, arm1_controller (+ gripper controllers).")
+
+    # -- state ------------------------------------------------------------------------------------------------------------
+    def publish(self):
+        with self.lock:
+            pos = [self.q[n] if n in self.q else -self.q[n.replace(MIMIC_FINGER_JOINT, FINGER_JOINT)] for n in self.names]
+        msg = JointState(name=self.names, position=pos)
+        msg.header.stamp = self.get_clock().now().to_msg()
+        self.pub.publish(msg)
+
+    def on_jump(self, msg):
+        a = np.array(msg.data, np.float64)
+        if a.shape != (14,) or not np.isfinite(a).all():
+            return
+        with self.lock:
+            self.generation += 1
+            for i in range(2):
+                q0 = np.array([self.q[f"arm{i}_{j}"] for j in ARM_JOINTS])
+                best = None
+                for start in (q0, np.array(self.calib.arms[i].get("rest", [0.0] * 6))):
+                    q, pe, re = self.kin[i].ik(a[i * 7: i * 7 + 6], start)
+                    if best is None or pe + 0.1 * re < best[1] + 0.1 * best[2]:
+                        best = (q, pe, re)
+                q, pe, re = best
+                if pe > 0.005 or re > 0.05:
+                    self.get_logger().warn(f"arm{i}: commanded pose out of reach by {pe * 1000:.1f} mm / {np.degrees(re):.1f} deg")
+                for j, v in zip(ARM_JOINTS, q):
+                    self.q[f"arm{i}_{j}"] = float(v)
+                self.q[f"arm{i}_{FINGER_JOINT}"] = self.calib.finger_opening(a[i * 7 + 6])
+                self.last_grip[i] = None
+    def on_gripper(self, msg):
+        """ee_teleop repeats its gripper command every tick; only a change moves the fingers, so a finger the MoveIt
+        gripper group moved stays where it was put (the finger joint is what the world model reads)."""
+        if len(msg.data) != 2 or not np.isfinite(msg.data).all():
+            return
+        with self.lock:
+            for i in range(2):
+                v = float(msg.data[i])
+                if self.last_grip[i] is None or abs(v - self.last_grip[i]) > 1e-6:
+                    self.q[f"arm{i}_{FINGER_JOINT}"] = self.calib.finger_opening(v)
+                self.last_grip[i] = v
+
+    # -- trajectories -------------------------------------------------------------------------------------------------------
+    def add_controller(self, name, joints):
+        server = ActionServer(self, FollowJointTrajectory, f"/{name}/follow_joint_trajectory",
+                              execute_callback=lambda h, n=name, j=joints: self.execute(n, j, h),
+                              goal_callback=lambda g, j=joints: self.check(j, g),
+                              cancel_callback=lambda _: CancelResponse.ACCEPT,
+                              handle_accepted_callback=lambda h, n=name: self.accept(n, h),
+                              callback_group=self.cb)
+        self.servers.append(server)
+
+    def check(self, joints, goal):
+        names = list(goal.trajectory.joint_names)
+        if not names or not set(names) <= set(joints) or not goal.trajectory.points:
+            return GoalResponse.REJECT
+        return GoalResponse.ACCEPT
+
+    def accept(self, name, handle):
+        self.active[name] = bytes(handle.goal_id.uuid)  # the newest goal wins; the older one sees it and stops
+        handle.execute()
+
+    def execute(self, name, joints, handle):
+        traj = handle.request.trajectory
+        cols = [k for k, n in enumerate(traj.joint_names) if not n.endswith(MIMIC_FINGER_JOINT)]  # the mimic finger follows
+        names = [traj.joint_names[k] for k in cols]
+        gid, gen = bytes(handle.goal_id.uuid), self.generation
+        with self.lock:
+            q0 = np.array([self.q[n] for n in names])
+        times = [0.0]
+        points = [q0]
+        for p in traj.points:
+            t = p.time_from_start.sec + 1e-9 * p.time_from_start.nanosec
+            if t <= times[-1] + 1e-6:  # a point at the start (or out of order): the arm starts from where it is
+                continue
+            times.append(t)
+            points.append(np.array(p.positions, np.float64)[cols])
+        if len(times) == 1:  # every point at t=0: go to the last one
+            times.append(0.05)
+            points.append(np.array(traj.points[-1].positions, np.float64)[cols])
+        times, points = np.array(times), np.array(points)
+        start = time.monotonic()
+        result = FollowJointTrajectory.Result()
+        while rclpy.ok():
+            if self.active.get(name) != gid or self.generation != gen:  # replaced by a newer trajectory, or a jump
+                handle.abort()
+                result.error_code = FollowJointTrajectory.Result.SUCCESSFUL
+                result.error_string = "preempted"
+                return result
+            if handle.is_cancel_requested:
+                handle.canceled()
+                return result
+            t = time.monotonic() - start
+            k = int(np.searchsorted(times, t, side="right"))
+            if k >= len(times):
+                q = points[-1]
+            else:
+                w = (t - times[k - 1]) / (times[k] - times[k - 1])
+                q = points[k - 1] + w * (points[k] - points[k - 1])
+            with self.lock:
+                for n, v in zip(names, q):
+                    self.q[n] = float(v)
+            if k >= len(times):
+                break
+            time.sleep(0.01)
+        handle.succeed()
+        result.error_code = FollowJointTrajectory.Result.SUCCESSFUL
+        return result
+
+
+def main():
+    rclpy.init()
+    node = SimRobot()
+    executor = MultiThreadedExecutor(num_threads=6)
+    executor.add_node(node)
+    try:
+        executor.spin()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        node.destroy_node()
+        rclpy.try_shutdown()
+
+
+if __name__ == "__main__":
+    main()

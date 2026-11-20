@@ -1,0 +1,50 @@
+[0.403s] Invoking command in '/home/austin/worldsim_ws/src/worldsim_core': PYTHONPATH=/home/austin/worldsim_ws/build/worldsim_core/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/worldsim_core build --build-base /home/austin/worldsim_ws/build/worldsim_core/build install --record /home/austin/worldsim_ws/build/worldsim_core/install.log --install-scripts $base/lib/worldsim_core --single-version-externally-managed install_data
+[0.526s] running egg_info
+[0.526s] creating ../../build/worldsim_core/worldsim_core.egg-info
+[0.526s] writing ../../build/worldsim_core/worldsim_core.egg-info/PKG-INFO
+[0.526s] writing dependency_links to ../../build/worldsim_core/worldsim_core.egg-info/dependency_links.txt
+[0.526s] writing requirements to ../../build/worldsim_core/worldsim_core.egg-info/requires.txt
+[0.526s] writing top-level names to ../../build/worldsim_core/worldsim_core.egg-info/top_level.txt
+[0.527s] writing manifest file '../../build/worldsim_core/worldsim_core.egg-info/SOURCES.txt'
+[0.527s] reading manifest file '../../build/worldsim_core/worldsim_core.egg-info/SOURCES.txt'
+[0.528s] writing manifest file '../../build/worldsim_core/worldsim_core.egg-info/SOURCES.txt'
+[0.528s] running build
+[0.528s] running build_py
+[0.528s] creating /home/austin/worldsim_ws/build/worldsim_core/build
+[0.528s] creating /home/austin/worldsim_ws/build/worldsim_core/build/lib
+[0.528s] creating /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core
+[0.528s] copying worldsim_core/tasks.py -> /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core
+[0.530s] copying worldsim_core/engine.py -> /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core
+[0.530s] copying worldsim_core/__init__.py -> /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core
+[0.530s] copying worldsim_core/teleop.py -> /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core
+[0.530s] copying worldsim_core/mapping.py -> /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core
+[0.530s] copying worldsim_core/transforms.py -> /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core
+[0.530s] copying worldsim_core/robot.py -> /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core
+[0.530s] running install
+[0.530s] running install_lib
+[0.531s] creating /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core
+[0.531s] copying /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core/tasks.py -> /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core
+[0.531s] copying /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core/engine.py -> /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core
+[0.531s] copying /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core/__init__.py -> /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core
+[0.531s] copying /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core/teleop.py -> /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core
+[0.531s] copying /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core/mapping.py -> /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core
+[0.531s] copying /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core/transforms.py -> /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core
+[0.531s] copying /home/austin/worldsim_ws/build/worldsim_core/build/lib/worldsim_core/robot.py -> /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core
+[0.531s] byte-compiling /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core/tasks.py to tasks.cpython-310.pyc
+[0.532s] byte-compiling /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core/engine.py to engine.cpython-310.pyc
+[0.533s] byte-compiling /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core/__init__.py to __init__.cpython-310.pyc
+[0.533s] byte-compiling /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core/teleop.py to teleop.cpython-310.pyc
+[0.534s] byte-compiling /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core/mapping.py to mapping.cpython-310.pyc
+[0.534s] byte-compiling /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core/transforms.py to transforms.cpython-310.pyc
+[0.535s] byte-compiling /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core/robot.py to robot.cpython-310.pyc
+[0.537s] running install_data
+[0.537s] creating /home/austin/worldsim_ws/install/worldsim_core/share/ament_index
+[0.537s] creating /home/austin/worldsim_ws/install/worldsim_core/share/ament_index/resource_index
+[0.537s] creating /home/austin/worldsim_ws/install/worldsim_core/share/ament_index/resource_index/packages
+[0.537s] copying resource/worldsim_core -> /home/austin/worldsim_ws/install/worldsim_core/share/ament_index/resource_index/packages
+[0.537s] copying package.xml -> /home/austin/worldsim_ws/install/worldsim_core/share/worldsim_core
+[0.537s] running install_egg_info
+[0.538s] Copying ../../build/worldsim_core/worldsim_core.egg-info to /home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages/worldsim_core-0.2.0-py3.10.egg-info
+[0.539s] running install_scripts
+[0.551s] writing list of installed files to '/home/austin/worldsim_ws/build/worldsim_core/install.log'
+[0.564s] Invoked command in '/home/austin/worldsim_ws/src/worldsim_core' returned '0': PYTHONPATH=/home/austin/worldsim_ws/build/worldsim_core/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/austin/worldsim_ws/install/worldsim_core/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/worldsim_core build --build-base /home/austin/worldsim_ws/build/worldsim_core/build install --record /home/austin/worldsim_ws/build/worldsim_core/install.log --install-scripts $base/lib/worldsim_core --single-version-externally-managed install_data
